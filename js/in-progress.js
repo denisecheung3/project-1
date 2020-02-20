@@ -1,3 +1,13 @@
+//human moving all (going right, then going down, then going left etc)
+const isGoingLeft = false
+//inset set interval human moving
+const humanMovingIntervalId = setInterval(() => {
+  
+
+
+
+
+
 //monkey shooting poop
 document.addEventListener('keydown', (event) => {
   if (event.key === ' ') {
@@ -45,8 +55,8 @@ console.log(currentCellsWithDisplayedHumans)
   }
 
 
-
-  // check Human Right Wall 20/feb doesn't work cuz  im just looping it like 18 times and the loop is not connected to the movement of the humans. so the loop probably finished looping before my humans reach the right wall
+ 
+  // check Human Right  Wall 20/feb doesn't work cuz  im just looping it like 18 times and the loop is not connected to the movement of the humans. so the loop probably finished looping before my humans reach the right wall
   function checkHumansRightWall() { //if (checkHumansRightWall) { goDown() }
   for (let i = 9; i < currentCellsWithDisplayedHumans.length; i += 10) {
     if (currentCellsWithDisplayedHumans[i].classList.contains('humanstyle')) {
@@ -71,5 +81,12 @@ if (containsHuman) {
 } else {
   // console.log('no humans on right wall')
 }
+
+
+// removing human when it gets hit 
+// linked with humans at starting position
+    //set interval below?
+    // if (cells[humans][i].classList.contains('human') && cells[humans][i].classList.contains('poop')) {
+    //   cells[humans[i]].classList.remove('humanstyle')
 
 // others 

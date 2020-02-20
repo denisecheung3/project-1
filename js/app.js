@@ -57,6 +57,16 @@ function humanInvaders() {
       cells[poop].classList.add('poopstyle')
       // currentPoop = 
       // const setInterval 
+      const poopShootingIntervalId = setInterval(() => { 
+        cells[poop].classList.remove('poopstyle')
+        poop -= width
+        cells[poop].classList.add('poopstyle')
+
+        // need to only enable Monkey to shoot poop every 4 seconds?
+      }, 1000) //don't remove, poopShooting Interval end brackets 
+
+
+      
 
       // poop += width 
       // update poop number 
@@ -75,9 +85,7 @@ function humanInvaders() {
 
     }
 
-  })
-  // })
-
+  }) // don't remove, space bar / poop shooting closing brackets 
 
 
 

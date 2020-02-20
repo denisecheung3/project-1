@@ -10,6 +10,13 @@ body {
   margin-bottom: 15px;
 }
 
+img {
+  background-size: cover;
+  opacity: 0.2;
+  position: absolute;
+
+}
+
 #startbutton {
 margin-bottom: 10px;
 }
@@ -27,7 +34,8 @@ margin-bottom: 10px;
 .cellstyle { 
   width: 10%;
   height: 10%;
-  border: 1px solid pink
+  border: 1px solid pink;
+  /* background-color: white; */
 }
 
 
@@ -35,3 +43,16 @@ margin-bottom: 10px;
   background-image: url('https://www.antimonkeybutt.com/wp-content/uploads/2018/12/slide-runner-370.png');
   background-size: contain; 
 }
+
+.humanstyle {
+  background-image: url('http://cliparts101.com/files/247/95F9ADD4C78201E98B78A1F4C218EF52/Hunter.png');
+  background-size: contain;
+
+}
+
+.poopstyle {
+  background-image: url('https://wikiclipart.com/wp-content/uploads/2016/10/Poop-poo-clipart-2.png');
+  background-size: contain; 
+}
+
+
