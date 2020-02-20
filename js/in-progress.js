@@ -8,13 +8,8 @@ document.addEventListener('keydown', (event) => {
         return false
       }
     })
-    if (forEachCell) { //if its true that any cell contains both class list 
-      // remove class poop and class human
-      return
-
-    } else {
+    if (forEachCell) { 
       cells[currentMonkey - width].classList.add('poopstyle')
-
     }
 
   }
@@ -48,3 +43,33 @@ console.log(currentCellsWithDisplayedHumans)
   function addHumanClass() {
 
   }
+
+
+
+  // check Human Right Wall 20/feb doesn't work cuz  im just looping it like 18 times and the loop is not connected to the movement of the humans. so the loop probably finished looping before my humans reach the right wall
+  function checkHumansRightWall() { //if (checkHumansRightWall) { goDown() }
+  for (let i = 9; i < currentCellsWithDisplayedHumans.length; i += 10) {
+    if (currentCellsWithDisplayedHumans[i].classList.contains('humanstyle')) {
+      // console.log(currentCellsWithDisplayedHumans[i])
+      //just checking 19 times. probably even before the humans are there.....
+      //
+      
+      containsHuman = true
+      // console.log('true')
+      // return true 
+    } else {
+      containsHuman = false
+      // console.log('false')
+      // return false
+    }
+  }
+}
+
+if (containsHuman) {
+  // console.log('there is human on right wall')
+  // goDown()
+} else {
+  // console.log('no humans on right wall')
+}
+
+// others 

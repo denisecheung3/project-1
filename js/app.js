@@ -8,7 +8,8 @@ function humanInvaders() {
   const cells = []
   let currentMonkey = 95
   let humans = [2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26, 27]
-  let poops = [] //do i need this
+  let CurrentPoop = 150
+  let containsHuman = false // for function checkHumansRightWall)
 
 
   //creating the cells and adding it to become children of class="grid". and adding monkey to starting position (cell index 95)
@@ -49,6 +50,37 @@ function humanInvaders() {
     cells[humans[i]].classList.add('humanstyle')
   }
 
+  //monkey shooting poop
+  document.addEventListener('keydown', (event) => {
+    if (event.keyCode === 32) {
+      poop = currentMonkey - width
+      cells[poop].classList.add('poopstyle')
+      // currentPoop = 
+      // const setInterval 
+
+      // poop += width 
+      // update poop number 
+      // remove poop from current
+      // add poop to new
+      //
+
+      // const forEachCell = cells.forEach((cell) => {
+      //   if (cell.classList.contains('poop') && cell.classList.contains('human')) {
+      //     return true
+      //   } else { 
+      //     return false
+      //   }
+      // })
+      // if (forEachCell) { 
+
+    }
+
+  })
+  // })
+
+
+
+
   // human moving interval https://clubmate.fi/remove-a-class-name-from-multiple-elements-with-pure-javascript/
 
   const humanMovingIntervalId = setInterval(() => {
@@ -62,9 +94,17 @@ function humanInvaders() {
       }
     }
 
-    function updateHumanArray() {
+    function updateHumanArray() { //perhaps link to right wall. iN PROGRESS
+      const rightWall = humans[width - 1] % width === 9 // not sure if humans[5] would work omg 
+      const leftWall = humans[0] % width === 0
+      //check if they're at the wall everytime they move! and every time they move is when the array is updated
+
+      // if (any cell contain )
+
       humans = humans.map((elem) => {
         return elem + 1
+        // need another constant to check whether new elem is part of the right wall 
+
       })
     }
 
@@ -74,16 +114,27 @@ function humanInvaders() {
       }
     }
 
+
     removeHumanClass()
     updateHumanArray()
-    // console.log(humans) to test that arrays are updating
+    // // console.log(humans) to test that arrays are updating
     addHumanClass()
 
   }, 1000) //don't mess with this, closing bracket for humanMovingIntervalId
-  
+
+
+
 
 
 } //don't mess with this, closing bracket for function humanInvaders() 
 
 
 window.addEventListener('DOMContentLoaded', humanInvaders)
+
+//prevents scrolling in broser up/down/left/right
+window.addEventListener('keydown', function (e) {
+  // space and arrow keys
+  if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+    e.preventDefault()
+  }
+}, false)
