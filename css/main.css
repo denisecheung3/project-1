@@ -1,0 +1,37 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+#startbutton {
+margin-bottom: 10px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid grey;
+  width: 500px;
+  height: 500px;
+  flex-wrap: wrap;
+}
+
+/* cellstyle is flex children of flex parent (.grid)  */
+.cellstyle { 
+  width: 10%;
+  height: 10%;
+  border: 1px solid pink
+}
+
+
+.monkeystyle {
+  background-image: url('https://www.antimonkeybutt.com/wp-content/uploads/2018/12/slide-runner-370.png');
+  background-size: contain; 
+}
