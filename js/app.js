@@ -9,9 +9,8 @@ function humanInvaders() {
   let currentMonkey = 95
   let humans = [2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26, 27]
   let poops = [] //do i need this
-  let currentCellsWithDisplayedHumans = document.querySelector('.humanstyles')
 
-  
+
   //creating the cells and adding it to become children of class="grid". and adding monkey to starting position (cell index 95)
   for (let i = 0; i < gridCellCount; i++) {
     const cell = document.createElement('div') //create an element 'div', stored in a variable 'cell' every time the for loop runs 
@@ -49,30 +48,39 @@ function humanInvaders() {
   for (let i = 0; i < humans.length; i++) {
     cells[humans[i]].classList.add('humanstyle')
   }
-  
-
-  // function removeHumanClass() {
-  //   for (let i = 0; i < currentCellsWithDisplayedHumans.length; i++) {
-  //     currentCellsWithDisplayedHumans[i].classList.remove('humanstyles')
-  //   }
-
-  // }
-  // removeHumanClass()
-
 
   // human moving interval https://clubmate.fi/remove-a-class-name-from-multiple-elements-with-pure-javascript/
-  // const humanMovingIntervalId = setInterval(() => {
-  //   function removeHumanClass() {
-  //     for (let i = 0; i < currentCellsWithDisplayedHumans.length; i++) {
-  //       currentCellsWithDisplayedHumans[i].classList.remove('humanstyles')
-  //     }
 
-  //   }
-  //   removeHumanClass()
+  const humanMovingIntervalId = setInterval(() => {
+    let currentCellsWithDisplayedHumans = document.querySelectorAll('.humanstyle') //at this point i will have cells with class humanstyles
+    // console.log(currentCellsWithDisplayedHumans) //this works. will keep printing my 18 cells that has 
 
 
-  // }, 1000) //don't mess with this, closing bracket for humanMovingIntervalId
+    function removeHumanClass() {
+      for (let i = 0; i < currentCellsWithDisplayedHumans.length; i++) {
+        currentCellsWithDisplayedHumans[i].classList.remove('humanstyle')
+      }
+    }
 
+    function updateHumanArray() {
+      humans = humans.map((elem) => {
+        return elem + 1
+      })
+    }
+
+    function addHumanClass() {
+      for (let i = 0; i < humans.length; i++) {
+        cells[humans[i]].classList.add('humanstyle')
+      }
+    }
+
+    removeHumanClass()
+    updateHumanArray()
+    // console.log(humans) to test that arrays are updating
+    addHumanClass()
+
+  }, 1000) //don't mess with this, closing bracket for humanMovingIntervalId
+  
 
 
 } //don't mess with this, closing bracket for function humanInvaders() 

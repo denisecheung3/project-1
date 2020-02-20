@@ -28,3 +28,23 @@ document.addEventListener('keydown', (event) => {
 // }
 
 
+
+
+// human moving 
+//human moving (1. remove 2. update array 3.add to new cells)
+let currentCellsWithDisplayedHumans = document.querySelectorAll('.humanstyle') //at this point i will have cells with class humanstyles
+console.log(currentCellsWithDisplayedHumans)
+
+  function removeHumanClass() {
+    for (let i = 0; i < currentCellsWithDisplayedHumans.length; i++) {
+      currentCellsWithDisplayedHumans[i].classList.remove('humanstyle')
+    }
+  }
+
+  function updateArray() {
+    if 
+  }
+
+  function addHumanClass() {
+
+  }
