@@ -57,8 +57,8 @@ function humanInvaders() {
       cells[poop].classList.add('poopstyle')
       // currentPoop = 
       // const setInterval 
-      const poopShootingIntervalId = setInterval(() => { 
-        cells[poop].classList.remove('poopstyle')
+      const poopShootingIntervalId = setInterval(() => {
+        cells[poop].classList.remove('poopstyle') //problem i think
         poop -= width
         cells[poop].classList.add('poopstyle')
 
@@ -66,7 +66,7 @@ function humanInvaders() {
       }, 1000) //don't remove, poopShooting Interval end brackets 
 
 
-      
+
 
       // poop += width 
       // update poop number 
@@ -89,31 +89,78 @@ function humanInvaders() {
 
 
 
-  // human moving interval https://clubmate.fi/remove-a-class-name-from-multiple-elements-with-pure-javascript/
 
+  //variables to help make decisions within set intervals 
+  let isGoingRight = true
+  let hasJustCollided = false
+  // SET INTERVAL - BELOW HAPPENS EVERY SECOND 
   const humanMovingIntervalId = setInterval(() => {
     let currentCellsWithDisplayedHumans = document.querySelectorAll('.humanstyle') //at this point i will have cells with class humanstyles
     // console.log(currentCellsWithDisplayedHumans) //this works. will keep printing my 18 cells that has 
 
 
-    function removeHumanClass() {
+    //keep removing humans regardless of whether it collided or just moving left/right/down
+    function removeHumanClass() { 
       for (let i = 0; i < currentCellsWithDisplayedHumans.length; i++) {
         currentCellsWithDisplayedHumans[i].classList.remove('humanstyle')
       }
     }
 
-    function updateHumanArray() { //perhaps link to right wall. iN PROGRESS
-      const rightWall = humans[width - 1] % width === 9 // not sure if humans[5] would work omg 
-      const leftWall = humans[0] % width === 0
-      //check if they're at the wall everytime they move! and every time they move is when the array is updated
+    
+    // updates the human array so human will go down/right. left 
+    function updateHumanArray() { 
+      //to check if potential top row of humans collided with right wall. (they are protected by humans below so only care about top row)
+      function isCollidingRight() {
+        const collisionableRightHumans = humans.slice(5)
 
-      // if (any cell contain )
+        //check if any of the potential top row humans are in the rightest column. if yes it means they are at the end
+        return collisionableRightHumans.some((elem) => {
+          return elem % width === width - 1 //this will return true or false 
+        })
 
-      humans = humans.map((elem) => {
-        return elem + 1
-        // need another constant to check whether new elem is part of the right wall 
+      }
+      //check if human[0], always can rely on human [0] cuz always going to be human [0] that touches leftest column, also protected by humans below
+      function isCollidingLeft() {
+        return humans[0] % width === 0 //this will return true or false
+      }
+      // conclusion. function isColldingRight and isColldingLeft checks if humans have touched rightest or leftest column! 
 
-      })
+      if (!hasJustCollided) { //if NOT just collided
+        if (isCollidingRight()) { //check if colliding right 
+          console.log('I am colliding right')
+          humans = humans.map((elem) => { //if YES colliding right, update numbers in human array to reflect human's new positions, which is one row down
+            return elem + width
+          })
+
+          isGoingRight = false // because we have an if statement if(isGoingRight) then human indexes + 1
+          hasJustCollided = true //important so the if(!hasJustCollided) doesn't run again. so don't keep going down!
+          return
+        }
+
+        if (isCollidingLeft()) { //check if collided left
+          console.log('I am colliding left') 
+          humans = humans.map((elem) => {
+            return elem + width
+          })
+          isGoingRight = true
+          hasJustCollided = true
+          return
+        }
+
+      }
+
+      if (isGoingRight) {
+        humans = humans.map((elem) => {
+          return elem + 1
+          // need another constant to check whether new elem is part of the right wall 
+        })
+      } else {
+        humans = humans.map((elem) => {
+          return elem - 1
+        })
+      }
+      hasJustCollided = false
+
     }
 
     function addHumanClass() {
