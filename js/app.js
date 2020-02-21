@@ -8,7 +8,7 @@ function humanInvaders() {
   const cells = []
   let currentMonkey = 95
   let humans = [2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26, 27]
-  let CurrentPoop = 150
+  let poop = 150
   let containsHuman = false // for function checkHumansRightWall)
 
 
@@ -51,29 +51,45 @@ function humanInvaders() {
   }
 
   //monkey shooting poop
+  let haspoopCollidedWithHuman = false
   document.addEventListener('keydown', (event) => {
+    //only one poop at once option 1 
+    //option 2, debug why is it breaking because. poop logic is interferring 
+    // wHY POOP IS BREAKING?? 
     if (event.keyCode === 32) {
       poop = currentMonkey - width
       cells[poop].classList.add('poopstyle')
       // currentPoop = 
-      // const setInterval 
-      const poopShootingIntervalId = setInterval(() => {
-        cells[poop].classList.remove('poopstyle') //problem i think
-        poop -= width
-        cells[poop].classList.add('poopstyle')
 
+      // const setInterval to remove poop 
+      const poopShootingIntervalId = setInterval(() => {
+      
+        function isPoopCollidingWithHuman() {
+          console.log(humans.includes(poop)) //prints true when collides
+          return humans.includes(poop)
+
+        }
+
+        if (!isPoopCollidingWithHuman()) {
+          cells[poop].classList.remove('poopstyle')
+          poop -= width //so poop only appears in the row above if not colliding
+          cells[poop].classList.add('poopstyle')
+          console.log('not collided with humans')
+        } else {
+          
+          cells[poop].classList.remove('poopstyle')
+          cells[poop].classList.remove('humanstyle')
+          humans.splice(humans.indexOf(poop), 1) //remove the human from array of number values in human array
+          poop = null //hack so poop doesn't stay there
+          console.log(humans) //this returns an empty array!!! 
+          haspoopCollidedWithHuman = true
+          
+        }
+        poopCollidedWithHuman = false
+
+        
         // need to only enable Monkey to shoot poop every 4 seconds?
       }, 1000) //don't remove, poopShooting Interval end brackets 
-
-
-
-
-      // poop += width 
-      // update poop number 
-      // remove poop from current
-      // add poop to new
-      //
-
       // const forEachCell = cells.forEach((cell) => {
       //   if (cell.classList.contains('poop') && cell.classList.contains('human')) {
       //     return true
@@ -100,15 +116,15 @@ function humanInvaders() {
 
 
     //keep removing humans regardless of whether it collided or just moving left/right/down
-    function removeHumanClass() { 
+    function removeHumanClass() {
       for (let i = 0; i < currentCellsWithDisplayedHumans.length; i++) {
         currentCellsWithDisplayedHumans[i].classList.remove('humanstyle')
       }
     }
 
-    
+
     // updates the human array so human will go down/right. left 
-    function updateHumanArray() { 
+    function updateHumanArray() {
       //to check if potential top row of humans collided with right wall. (they are protected by humans below so only care about top row)
       function isCollidingRight() {
         const collisionableRightHumans = humans.slice(5)
@@ -138,7 +154,7 @@ function humanInvaders() {
         }
 
         if (isCollidingLeft()) { //check if collided left
-          console.log('I am colliding left') 
+          console.log('I am colliding left')
           humans = humans.map((elem) => {
             return elem + width
           })

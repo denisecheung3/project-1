@@ -2,7 +2,7 @@
 const isGoingLeft = false
 //inset set interval human moving
 const humanMovingIntervalId = setInterval(() => {
-  
+
 
 
 
@@ -90,3 +90,38 @@ if (containsHuman) {
     //   cells[humans[i]].classList.remove('humanstyle')
 
 // others 
+
+
+
+      // const setInterval to remove poop 
+      const poopShootingIntervalId = setInterval(() => {
+        cells[poop].classList.remove('poopstyle') 
+        poop -= width
+        cells[poop].classList.add('poopstyle')
+
+
+        //check if there is collision every second 
+  
+        function isPoopCollidingWithHuman() {
+          console.log(humans.includes(poop)) //prints true when collides
+          return humans.includes(poop) 
+          
+        }
+
+        if (!isPoopCollidingWithHuman()) {
+          if (isPoopCollidingWithHuman()) {
+            cells[poop].classList.remove('poopstyle')
+            poopCollidedWithHuman = true 
+
+          } else {
+            console.log('test')
+            return 
+
+          }
+
+
+        }
+        
+        poopCollidedWithHuman = false 
+        // need to only enable Monkey to shoot poop every 4 seconds?
+      }, 1000) //don't remove, poopShooting Interval end brackets 
