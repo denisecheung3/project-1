@@ -125,3 +125,27 @@ if (containsHuman) {
         poopCollidedWithHuman = false 
         // need to only enable Monkey to shoot poop every 4 seconds?
       }, 1000) //don't remove, poopShooting Interval end brackets 
+
+
+
+      // poop 
+      let haspoopCollidedWithHuman = false
+      let poopExist = false 
+      function isPoopCollidingWithHuman() {
+        console.log(humans.includes(poop)) //prints true when collides
+        return humans.includes(poop)
+    
+      }
+      document.addEventListener('keydown', (event) => {
+        //only one poop at once option 1 
+        //option 2, debug why is it breaking because. poop logic is interferring 
+        // wHY POOP IS BREAKING?? 
+        if (event.keyCode === 32) {
+    
+          poop = currentMonkey - width
+          cells[poop].classList.add('poopstyle')
+          // currentPoop = 
+    
+          // const setInterval to remove poop 
+          const poopShootingIntervalId = setInterval(() => {
+          

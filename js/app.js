@@ -52,14 +52,15 @@ function humanInvaders() {
 
   //monkey shooting poop
   let haspoopCollidedWithHuman = false
+  let poopExist = false 
+  
   document.addEventListener('keydown', (event) => {
-    //only one poop at once option 1 
+    //only one poop at once option 1. do this. 
     //option 2, debug why is it breaking because. poop logic is interferring 
-    // wHY POOP IS BREAKING?? 
+    // wHY IS POOP LOGIC BREAKING?? 
     if (event.keyCode === 32) {
-      poop = currentMonkey - width
+      poop = currentMonkey - width //this is the problem. everytime i press space bar poop will become this
       cells[poop].classList.add('poopstyle')
-      // currentPoop = 
 
       // const setInterval to remove poop 
       const poopShootingIntervalId = setInterval(() => {
@@ -76,13 +77,13 @@ function humanInvaders() {
           cells[poop].classList.add('poopstyle')
           console.log('not collided with humans')
         } else {
-          
+          humans.splice(humans.indexOf(poop), 1) //remove the human from array of number values in human array
           cells[poop].classList.remove('poopstyle')
           cells[poop].classList.remove('humanstyle')
-          humans.splice(humans.indexOf(poop), 1) //remove the human from array of number values in human array
           poop = null //hack so poop doesn't stay there
-          console.log(humans) //this returns an empty array!!! 
+          console.log(humans) //this returns an array of 17 the first time one human is down!
           haspoopCollidedWithHuman = true
+          clearInterval(poopShootingIntervalId)
           
         }
         poopCollidedWithHuman = false

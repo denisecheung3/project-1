@@ -10,7 +10,7 @@ body {
   margin-bottom: 15px;
 }
 
-img {
+#forest {
   background-size: cover;
   opacity: 0.2;
   position: absolute;
@@ -18,18 +18,18 @@ img {
 }
 
 #startbutton {
-margin-bottom: 10px;
+/* margin-bottom: 10px; */
 }
 
 .grid {
   display: flex;
   flex-direction: row;
   border: 1px solid grey;
-  width: 500px;
-  height: 500px;
+  width: 550px;
+  height: 550px;
   flex-wrap: wrap;
+  margin-top: 50px;
 }
-
 /* cellstyle is flex children of flex parent (.grid)  */
 .cellstyle { 
   width: 10%;
@@ -56,3 +56,50 @@ margin-bottom: 10px;
 }
 
 
+#parentofgrid {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between
+}
+
+#instructionbox {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid grey;
+  width: 350px;
+  height: 600px;
+  margin-right: 100px;
+  border-radius: 10px;
+}
+#scroll {
+  background-size: stretch;
+  height: 700px;
+  width: 400px;
+  margin-bottom: 100px;
+  margin-top: 0px;
+  background-image: url("https://purepng.com/public/uploads/medium/purepng.com-scrollvintagepaperobjectoldrollscrollhistorygrungemessagepapyrusparchment-631522164174xa2t7.png")
+
+}
+
+h2 {
+  text-align: center;
+}
+
+p {
+  font-size: 18px;
+}
+
+#scoresandlives {
+  width: 550px;
+  height: 30px; 
+  display: flex;
+  align-items: flex-end;
+  border: 1px solid red;
+  margin-left: 450px;
+
+}
+
+.net {
+  background-image: url("https://m.media-amazon.com/images/I/61F0vETEmAL._SR500,500_.jpg");
+  background-size: contain; 
+}
