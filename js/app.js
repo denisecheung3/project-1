@@ -8,8 +8,10 @@ function humanInvaders() {
   const cells = []
   let currentMonkey = 95
   let humans = [2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26, 27]
-  let poop = 150
+  let poop = null
   let containsHuman = false // for function checkHumansRightWall)
+  // let poopExist = false
+  let poopInterval 
 
 
   //creating the cells and adding it to become children of class="grid". and adding monkey to starting position (cell index 95)
@@ -50,47 +52,70 @@ function humanInvaders() {
     cells[humans[i]].classList.add('humanstyle')
   }
 
+  //function to check if poop is colliding with human 
+  function isPoopCollidingWithHuman() {
+    console.log(humans.includes(poop)) //prints true when collides
+    return humans.includes(poop)
+
+  }
+
+
   //monkey shooting poop
-  let haspoopCollidedWithHuman = false
-  let poopExist = false 
-  
+  // let haspoopCollidedWithHuman = false
+  // let poopExist = false
+  // const poopExistence = setInterval(() => {
+
+  // if (poopExist) {
+  //   console.log('there is a poop')
+  //   return
+  // } else {
   document.addEventListener('keydown', (event) => {
     //only one poop at once option 1. do this. 
     //option 2, debug why is it breaking because. poop logic is interferring 
     // wHY IS POOP LOGIC BREAKING?? 
+
     if (event.keyCode === 32) {
-      poop = currentMonkey - width //this is the problem. everytime i press space bar poop will become this
+      if (poop === 0 || poop > 0) { //cuz poop>=0 didn't work as it had problems with poop = null. because when poop = null, poop>=0. couldn't shoot because it was just returning. 
+        return
+      }
+      // poopExist = true
+      poop = currentMonkey - width 
       cells[poop].classList.add('poopstyle')
 
       // const setInterval to remove poop 
-      const poopShootingIntervalId = setInterval(() => {
-      
-        function isPoopCollidingWithHuman() {
-          console.log(humans.includes(poop)) //prints true when collides
-          return humans.includes(poop)
+      poopInterval = setInterval(() => {
 
+        if (poop < width) {
+          console.log('im negative')
+          cells[poop].classList.remove('poopstyle')
+          poop = null 
+          clearInterval(poopInterval)
+          return
         }
 
+
+
         if (!isPoopCollidingWithHuman()) {
-          cells[poop].classList.remove('poopstyle')
+          cells[poop].classList.remove('poopstyle') // causing errors
           poop -= width //so poop only appears in the row above if not colliding
           cells[poop].classList.add('poopstyle')
-          console.log('not collided with humans')
+          // console.log('not collided with humans')
         } else {
+          console.log(humans.indexOf(poop))
           humans.splice(humans.indexOf(poop), 1) //remove the human from array of number values in human array
           cells[poop].classList.remove('poopstyle')
           cells[poop].classList.remove('humanstyle')
           poop = null //hack so poop doesn't stay there
+          // poopExist = false
           console.log(humans) //this returns an array of 17 the first time one human is down!
           haspoopCollidedWithHuman = true
-          clearInterval(poopShootingIntervalId)
-          
+          clearInterval(poopInterval)
+
         }
         poopCollidedWithHuman = false
 
-        
-        // need to only enable Monkey to shoot poop every 4 seconds?
-      }, 1000) //don't remove, poopShooting Interval end brackets 
+
+      }, 450) //don't remove, poopShooting Interval end brackets 
       // const forEachCell = cells.forEach((cell) => {
       //   if (cell.classList.contains('poop') && cell.classList.contains('human')) {
       //     return true
@@ -103,6 +128,10 @@ function humanInvaders() {
     }
 
   }) // don't remove, space bar / poop shooting closing brackets 
+
+
+
+
 
 
 
@@ -126,6 +155,16 @@ function humanInvaders() {
 
     // updates the human array so human will go down/right. left 
     function updateHumanArray() {
+      if (isPoopCollidingWithHuman()) {
+        humans.splice(humans.indexOf(poop), 1) //remove the human from array of number values in human array
+        cells[poop].classList.remove('poopstyle')
+        cells[poop].classList.remove('humanstyle')
+        poop = null //hack so poop doesn't stay there
+        // poopExist = false
+        console.log(humans) //this returns an array of 17 the first time one human is down!
+        haspoopCollidedWithHuman = true 
+        clearInterval(poopInterval)
+      }
       //to check if potential top row of humans collided with right wall. (they are protected by humans below so only care about top row)
       function isCollidingRight() {
         const collisionableRightHumans = humans.slice(5)
@@ -138,7 +177,10 @@ function humanInvaders() {
       }
       //check if human[0], always can rely on human [0] cuz always going to be human [0] that touches leftest column, also protected by humans below
       function isCollidingLeft() {
-        return humans[0] % width === 0 //this will return true or false
+        return humans.some((elem) => {
+          return elem % width === 0
+        })
+        // return humans[0] % width === 0 //this will return true or false
       }
       // conclusion. function isColldingRight and isColldingLeft checks if humans have touched rightest or leftest column! 
 
