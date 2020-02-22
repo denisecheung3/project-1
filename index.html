@@ -11,24 +11,27 @@
   <title>Project1</title>
 </head>
 
-<body class="background">
-  <h1>Forest invaders</h1>
-  <img id="forest"
-    src="https://previews.123rf.com/images/brgfx/brgfx1707/brgfx170700488/82677328-monkeys-living-in-dark-forest-illustration.jpg">
+<body class="background" id="forestimage">
+  <h1>Monkey Kingdom Invaders</h1>
+
   <div id="scoresandlives">
-    <div>Score</div>
+    <div id="score">Score</div>
     <div>Lives</div>
   </div>
   <div id="parentofgrid">
-    <div id="instructionbox">
+    <div id="instructionbox" class="scroll">
       <!-- <img id="scroll" src="https://purepng.com/public/uploads/medium/purepng.com-scrollvintagepaperobjectoldrollscrollhistorygrungemessagepapyrusparchment-631522164174xa2t7.png"> -->
-      <div ></div>
-      <h2>Gameplay</h2>
-      <p>Instructions</p>
+      <h2 id="instructionsheading">Instructions</h2>
+      <p id="instructions"> The evil invaders are coming to attack the Monkey Kingdom! Kill all of the invaders before they reach the Kingdom to save the day! </p>
+      <h2> How to play</h2>
+      <p> Use the left and right arrow keys to move Monkey.</p>
+      <p>Use the spacebar to shoot poop to attack the invaders.</p>
+
       <button id="startbutton">Start Game</button>
     </div>
     <div class="grid"></div>
   </div>
+  <div id="kingdom"> MONKEY KINGDOM</div>
 </body>
 
 </html>

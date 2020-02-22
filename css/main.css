@@ -59,20 +59,22 @@ body {
 #parentofgrid {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between
+  margin-bottom: -100px;
+  
 }
 
 #instructionbox {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   border: 1px solid grey;
-  width: 350px;
+  width: 500px;
   height: 600px;
-  margin-right: 100px;
+  margin-right: 50px;
   border-radius: 10px;
+  padding: 45px;
 }
-#scroll {
-  background-size: stretch;
+.scroll {
+  background-size: cover;
   height: 700px;
   width: 400px;
   margin-bottom: 100px;
@@ -87,19 +89,47 @@ h2 {
 
 p {
   font-size: 18px;
+  line-height: 30px;
+  margin: 5px;
 }
 
 #scoresandlives {
   width: 550px;
   height: 30px; 
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   border: 1px solid red;
-  margin-left: 450px;
+  margin-left: 550px;
 
+}
+
+#score {
+  text-align: center;
 }
 
 .net {
   background-image: url("https://m.media-amazon.com/images/I/61F0vETEmAL._SR500,500_.jpg");
   background-size: contain; 
+}
+
+#instructionsheading {
+  margin-top: 30px;
+}
+
+#kingdom {
+  width: 550px;
+  height: 30px; 
+  border: 1px solid red;
+  margin-left: 550px;
+  background-color: gold;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 5px;
+
+}
+
+#forestimage {
+  background-image: url("https://previews.123rf.com/images/brgfx/brgfx1707/brgfx170700488/82677328-monkeys-living-in-dark-forest-illustration.jpg");
+  background-size: contain;
+
 }

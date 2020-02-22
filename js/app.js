@@ -11,7 +11,7 @@ function humanInvaders() {
   let poop = null
   let containsHuman = false // for function checkHumansRightWall)
   // let poopExist = false
-  let poopInterval 
+  let poopInterval
 
 
   //creating the cells and adding it to become children of class="grid". and adding monkey to starting position (cell index 95)
@@ -59,6 +59,27 @@ function humanInvaders() {
 
   }
 
+  // function to check if human collided with monkey
+  function humanCollidedWithMonkey() { //do I need one that's MonkeyCollidedWithHuman?
+    return humans.includes(currentMonkey)
+  }
+
+  //end game function
+  function endGame() {
+    for (let i = 0; i < humans.length; i++) {
+      cells[humans[i]].classList.remove('humanstyle')
+    }
+    cells[currentMonkey].classList.remove('monkeystyle')
+    currentMonkey = null
+    humans = [] 
+  }
+
+  // if Human Reaches beyond bottom line 
+  function ifHumanReachesKingdom() {
+    return humans.some((elem => {
+      return elem > (width * width) - 1
+    }))
+  }
 
   //monkey shooting poop
   // let haspoopCollidedWithHuman = false
@@ -79,7 +100,7 @@ function humanInvaders() {
         return
       }
       // poopExist = true
-      poop = currentMonkey - width 
+      poop = currentMonkey - width
       cells[poop].classList.add('poopstyle')
 
       // const setInterval to remove poop 
@@ -88,7 +109,7 @@ function humanInvaders() {
         if (poop < width) {
           console.log('im negative')
           cells[poop].classList.remove('poopstyle')
-          poop = null 
+          poop = null
           clearInterval(poopInterval)
           return
         }
@@ -107,7 +128,7 @@ function humanInvaders() {
           cells[poop].classList.remove('humanstyle')
           poop = null //hack so poop doesn't stay there
           // poopExist = false
-          console.log(humans) //this returns an array of 17 the first time one human is down!
+          //this returns an array of 17 the first time one human is down!
           haspoopCollidedWithHuman = true
           clearInterval(poopInterval)
 
@@ -162,25 +183,22 @@ function humanInvaders() {
         poop = null //hack so poop doesn't stay there
         // poopExist = false
         console.log(humans) //this returns an array of 17 the first time one human is down!
-        haspoopCollidedWithHuman = true 
+        haspoopCollidedWithHuman = true
         clearInterval(poopInterval)
       }
       //to check if potential top row of humans collided with right wall. (they are protected by humans below so only care about top row)
       function isCollidingRight() {
-        const collisionableRightHumans = humans.slice(5)
-
-        //check if any of the potential top row humans are in the rightest column. if yes it means they are at the end
-        return collisionableRightHumans.some((elem) => {
+        return humans.some((elem) => {
           return elem % width === width - 1 //this will return true or false 
         })
 
       }
-      //check if human[0], always can rely on human [0] cuz always going to be human [0] that touches leftest column, also protected by humans below
+      //can't rely on human[0] so check the whole humans array to see if it has an element whose value, a number % width === 0, which means it has touched left wall
       function isCollidingLeft() {
         return humans.some((elem) => {
           return elem % width === 0
         })
-        // return humans[0] % width === 0 //this will return true or false
+
       }
       // conclusion. function isColldingRight and isColldingLeft checks if humans have touched rightest or leftest column! 
 
@@ -188,7 +206,12 @@ function humanInvaders() {
         if (isCollidingRight()) { //check if colliding right 
           console.log('I am colliding right')
           humans = humans.map((elem) => { //if YES colliding right, update numbers in human array to reflect human's new positions, which is one row down
-            return elem + width
+            if (elem + width > width * width - 1) {
+              clearInterval(humanMovingIntervalId)
+              endGame()
+            } else {
+              return elem + width
+            }
           })
 
           isGoingRight = false // because we have an if statement if(isGoingRight) then human indexes + 1
@@ -199,7 +222,12 @@ function humanInvaders() {
         if (isCollidingLeft()) { //check if collided left
           console.log('I am colliding left')
           humans = humans.map((elem) => {
-            return elem + width
+            if (elem + width > width * width - 1) {
+              clearInterval(humanMovingIntervalId)
+              endGame()
+            } else {
+              return elem + width
+            }
           })
           isGoingRight = true
           hasJustCollided = true
@@ -232,15 +260,27 @@ function humanInvaders() {
     removeHumanClass()
     updateHumanArray()
     // // console.log(humans) to test that arrays are updating
+
+    if (humanCollidedWithMonkey()) {
+      console.log('we collided') //there is 1 cell delay 
+      clearInterval(humanMovingIntervalId)
+      endGame()
+
+    }
+
     addHumanClass()
+
+    console.log(humans)
+
+
+
 
   }, 1000) //don't mess with this, closing bracket for humanMovingIntervalId
 
 
 
-
-
 } //don't mess with this, closing bracket for function humanInvaders() 
+
 
 
 window.addEventListener('DOMContentLoaded', humanInvaders)
