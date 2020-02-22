@@ -18,7 +18,8 @@ body {
 }
 
 #startbutton {
-/* margin-bottom: 10px; */
+margin-top: 50px;
+font-family: 'Bree Serif';
 }
 
 .grid {
@@ -85,12 +86,15 @@ body {
 
 h2 {
   text-align: center;
+  font-family: 'Bree Serif';
+  margin-top: 40px;
 }
 
 p {
-  font-size: 18px;
+  font-size: 14px;
   line-height: 30px;
   margin: 5px;
+  font-family: 'Merriweather';
 }
 
 #scoresandlives {
@@ -113,7 +117,7 @@ p {
 }
 
 #instructionsheading {
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
 #kingdom {
@@ -132,4 +136,21 @@ p {
   background-image: url("https://previews.123rf.com/images/brgfx/brgfx1707/brgfx170700488/82677328-monkeys-living-in-dark-forest-illustration.jpg");
   background-size: contain;
 
+}
+
+button {
+  font-size: 20px;
+  margin-top: 50px;
+  background-color: lightgoldenrodyellow
+}
+
+h1 {
+  font-family: 'Bree Serif';
+  font-size: 48px;
+}
+
+.emphasis {
+  font-weight: 800;
+  color: red;
+  display: inline;
 }
