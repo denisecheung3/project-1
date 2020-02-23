@@ -8,6 +8,7 @@ body {
   align-items: center;
   flex-direction: column;
   margin-bottom: 15px;
+  padding-right: 3px;
 }
 
 #forest {
@@ -18,8 +19,10 @@ body {
 }
 
 #startbutton {
-margin-top: 50px;
 font-family: 'Bree Serif';
+font-size: 20px;
+background-color: lightgoldenrodyellow;
+margin-top: 10px;
 }
 
 .grid {
@@ -35,8 +38,8 @@ font-family: 'Bree Serif';
 .cellstyle { 
   width: 10%;
   height: 10%;
-  border: 1px solid pink;
-  /* background-color: white; */
+  /* border: 1px solid pink; */
+  background-color: white;
 }
 
 
@@ -47,6 +50,7 @@ font-family: 'Bree Serif';
 
 .humanstyle {
   background-image: url('http://cliparts101.com/files/247/95F9ADD4C78201E98B78A1F4C218EF52/Hunter.png');
+/* background-image: url('images/hunter1.png'); */
   background-size: contain;
 
 }
@@ -87,7 +91,7 @@ font-family: 'Bree Serif';
 h2 {
   text-align: center;
   font-family: 'Bree Serif';
-  margin-top: 40px;
+  margin-top: 10px;
 }
 
 p {
@@ -134,15 +138,10 @@ p {
 
 #forestimage {
   background-image: url("https://previews.123rf.com/images/brgfx/brgfx1707/brgfx170700488/82677328-monkeys-living-in-dark-forest-illustration.jpg");
-  background-size: contain;
+  background-size: cover;
 
 }
 
-button {
-  font-size: 20px;
-  margin-top: 50px;
-  background-color: lightgoldenrodyellow
-}
 
 h1 {
   font-family: 'Bree Serif';
@@ -153,4 +152,16 @@ h1 {
   font-weight: 800;
   color: red;
   display: inline;
+}
+
+.howtoplay {
+  margin-top: 10px;
+}
+
+#nooflives {
+  font-size: 32px;
+  font-family: 'Bree Serif';
+  text-align: center;
+  width: 100%;
+
 }

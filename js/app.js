@@ -1,4 +1,15 @@
-console.log('test')
+
+
+function start() {
+  const startButton = document.querySelector('#startbutton')
+  startButton.addEventListener('click', () => {
+    humanInvaders()
+    startButton.disabled = true
+
+  })
+
+}
+
 
 
 function humanInvaders() {
@@ -15,6 +26,9 @@ function humanInvaders() {
   let lives = 3
   let netAppearPosition
   let netDroppingIntervalId
+  const noOfLives = document.querySelector('#nooflives')
+
+
 
 
   //creating the cells and adding it to become children of class="grid". and adding monkey to starting position (cell index 95)
@@ -49,7 +63,7 @@ function humanInvaders() {
       currentMonkey -= 1
       cells[currentMonkey].classList.add('monkeystyle')
     }
-    
+
     console.log('currentMonkey', currentMonkey)
     console.log('netAppearPosition', netAppearPosition)
 
@@ -60,11 +74,12 @@ function humanInvaders() {
       lives -= 1
       console.log(lives)
       clearInterval(netDroppingIntervalId)
+      noOfLives.innerHTML = `LIVES: ${lives}`
 
       if (lives === 0) {
         endGame()
       }
-      
+
 
 
     }
@@ -327,7 +342,9 @@ function humanInvaders() {
       if (netCollidedWithMonkey()) {
         cells[netAppearPosition].classList.remove('net')
         lives -= 1
+        netAppearPosition = null
         clearInterval(netDroppingIntervalId)
+        noOfLives.innerHTML = `Lives: ${lives}`
 
         if (lives === 0) {
           clearInterval(humanShootNetIntervalId)
@@ -340,6 +357,7 @@ function humanInvaders() {
       } else if (netAppearPosition > width * width - 1 - width) {
         cells[netAppearPosition].classList.remove('net')
         clearInterval(netDroppingIntervalId)
+        netAppearPosition = null
 
       } else {
         cells[netAppearPosition].classList.remove('net')
@@ -357,7 +375,7 @@ function humanInvaders() {
 
 
 
-window.addEventListener('DOMContentLoaded', humanInvaders)
+window.addEventListener('DOMContentLoaded', start)
 
 //prevents scrolling in broser up/down/left/right
 window.addEventListener('keydown', function (e) {
