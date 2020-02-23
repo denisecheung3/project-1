@@ -31,12 +31,13 @@ function humanInvaders() {
   document.addEventListener('keydown', (event) => {
     console.log(event.key) //this shows you in console which key the user has pressed on
     if (event.key === 'ArrowRight') {
-      if (currentMonkey === cells.length - 1) { //this is if monkey is at cell[4]  ?. this is just using the const (let) harry, not CSS class harry 
-        return //return so it doesn't do anything, won't let harry go outside the grid
-      } //line 26-28 is all other situations when harry is not cell[4]
-      cells[currentMonkey].classList.remove('monkeystyle') //first we remove class harry from current cell. cells[harry]. remember all our cells are pushed to an array. so cells[currentindexofharry]
-      currentMonkey += 1 //now we +1 to the currentposition of harry so cells[16]
-      cells[currentMonkey].classList.add('monkeystyle') //add the class harry from CSS to the cell where harry is currently in
+      if (currentMonkey === cells.length - 1) { //this is if monkey is at cell 99
+        return //return so it doesn't do anything, won't let Monkey go outside the grid
+      }
+      cells[currentMonkey].classList.remove('monkeystyle') //first remove monkeystyle from the style monkey was at 
+      currentMonkey += 1 //then +1 to reflect the cell monkey will be at when user clicks right arrow 
+      cells[currentMonkey].classList.add('monkeystyle') //add monketstyle to the new cell user moved monkey to 
+
     } else if (event.key === 'ArrowLeft') {
       if (currentMonkey === 90) {
         return
@@ -45,6 +46,7 @@ function humanInvaders() {
       currentMonkey -= 1
       cells[currentMonkey].classList.add('monkeystyle')
     }
+
 
   })
 
@@ -55,7 +57,7 @@ function humanInvaders() {
 
   //function to check if poop is colliding with human 
   function isPoopCollidingWithHuman() {
-    console.log(humans.includes(poop)) //prints true when collides
+    // console.log(humans.includes(poop)) //prints true when collides
     return humans.includes(poop)
 
   }
@@ -73,6 +75,10 @@ function humanInvaders() {
     cells[currentMonkey].classList.remove('monkeystyle')
     currentMonkey = null
     humans = []
+    if (poop !== null) {
+      cells[poop].classList.remove('poopstyle')
+    }
+    // cells[poop].classList.remove('poopstyle') // will throw error if no poop exists 
   }
 
   // if Human Reaches beyond bottom line 
@@ -177,6 +183,8 @@ function humanInvaders() {
 
     // updates the human array so human will go down/right. left 
     function updateHumanArray() {
+
+      
       if (isPoopCollidingWithHuman()) {
         humans.splice(humans.indexOf(poop), 1) //remove the human from array of number values in human array
         cells[poop].classList.remove('poopstyle')
@@ -263,7 +271,7 @@ function humanInvaders() {
     // // console.log(humans) to test that arrays are updating
 
     if (humanCollidedWithMonkey()) {
-      console.log('we collided') //there is 1 cell delay 
+      console.log('we collided') 
       clearInterval(humanMovingIntervalId)
       endGame()
 
@@ -282,13 +290,13 @@ function humanInvaders() {
 
   const humanShootNetIntervalId = setInterval(() => {
     
-    //select eligible human to shoot from 
 
-    // net appears 1 row below random eligible human 
+
+    // net appears 1 row below last human 
     let netAppearPosition = humans[humans.length - 1] + width
     cells[netAppearPosition].classList.add('net')
 
-    //function to check if net collided with Monkey
+
     function netCollidedWithMonkey() {
       return netAppearPosition === currentMonkey
     }
@@ -299,7 +307,15 @@ function humanInvaders() {
       if (netCollidedWithMonkey()) {
         cells[netAppearPosition].classList.remove('net')
         lives -= 1
+        console.log(lives)
         clearInterval(netDroppingIntervalId)
+
+        if (lives === 0) {
+          clearInterval(humanShootNetIntervalId)
+          clearInterval(poopInterval) // doesn't do what i want 
+          clearInterval(humanMovingIntervalId)
+          endGame()
+        }
 
         //play audio
       } else if (netAppearPosition > width * width - 1 - width) {
