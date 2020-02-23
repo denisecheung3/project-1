@@ -13,6 +13,8 @@ function humanInvaders() {
   // let poopExist = false
   let poopInterval
   let lives = 3
+  let netAppearPosition
+  let netDroppingIntervalId
 
 
   //creating the cells and adding it to become children of class="grid". and adding monkey to starting position (cell index 95)
@@ -31,6 +33,7 @@ function humanInvaders() {
   document.addEventListener('keydown', (event) => {
     console.log(event.key) //this shows you in console which key the user has pressed on
     if (event.key === 'ArrowRight') {
+
       if (currentMonkey === cells.length - 1) { //this is if monkey is at cell 99
         return //return so it doesn't do anything, won't let Monkey go outside the grid
       }
@@ -45,6 +48,25 @@ function humanInvaders() {
       cells[currentMonkey].classList.remove('monkeystyle')
       currentMonkey -= 1
       cells[currentMonkey].classList.add('monkeystyle')
+    }
+    
+    console.log('currentMonkey', currentMonkey)
+    console.log('netAppearPosition', netAppearPosition)
+
+    if (currentMonkey === netAppearPosition) { //if monkey walks into net
+      console.log(currentMonkey === netAppearPosition)
+      cells[netAppearPosition].classList.remove('net') //copied this line and the 3 lines to follow from net stuff. so could refactor
+      netAppearPosition = null
+      lives -= 1
+      console.log(lives)
+      clearInterval(netDroppingIntervalId)
+
+      if (lives === 0) {
+        endGame()
+      }
+      
+
+
     }
 
 
@@ -184,7 +206,7 @@ function humanInvaders() {
     // updates the human array so human will go down/right. left 
     function updateHumanArray() {
 
-      
+
       if (isPoopCollidingWithHuman()) {
         humans.splice(humans.indexOf(poop), 1) //remove the human from array of number values in human array
         cells[poop].classList.remove('poopstyle')
@@ -213,7 +235,6 @@ function humanInvaders() {
 
       if (!hasJustCollided) { //if NOT just collided
         if (isCollidingRight()) { //check if colliding right 
-          console.log('I am colliding right')
           humans = humans.map((elem) => { //if YES colliding right, update numbers in human array to reflect human's new positions, which is one row down
             if (elem + width > width * width - 1) {
               clearInterval(humanMovingIntervalId)
@@ -229,7 +250,6 @@ function humanInvaders() {
         }
 
         if (isCollidingLeft()) { //check if collided left
-          console.log('I am colliding left')
           humans = humans.map((elem) => {
             if (elem + width > width * width - 1) {
               clearInterval(humanMovingIntervalId)
@@ -271,7 +291,7 @@ function humanInvaders() {
     // // console.log(humans) to test that arrays are updating
 
     if (humanCollidedWithMonkey()) {
-      console.log('we collided') 
+      console.log('we collided')
       clearInterval(humanMovingIntervalId)
       endGame()
 
@@ -289,11 +309,11 @@ function humanInvaders() {
   //human shooting net 
 
   const humanShootNetIntervalId = setInterval(() => {
-    
+
 
 
     // net appears 1 row below last human 
-    let netAppearPosition = humans[humans.length - 1] + width
+    netAppearPosition = humans[humans.length - 1] + width
     cells[netAppearPosition].classList.add('net')
 
 
@@ -302,12 +322,11 @@ function humanInvaders() {
     }
 
 
-    const netDroppingIntervalId = setInterval(() => {
+    netDroppingIntervalId = setInterval(() => {
 
       if (netCollidedWithMonkey()) {
         cells[netAppearPosition].classList.remove('net')
         lives -= 1
-        console.log(lives)
         clearInterval(netDroppingIntervalId)
 
         if (lives === 0) {
@@ -325,14 +344,13 @@ function humanInvaders() {
       } else {
         cells[netAppearPosition].classList.remove('net')
         netAppearPosition = netAppearPosition + width
-        console.log(netAppearPosition + width)
         cells[netAppearPosition].classList.add('net')
       }
 
     }, 750)
 
 
-  }, 4000)
+  }, 7000)
 
 
 } //don't mess with this, closing bracket for function humanInvaders() 
