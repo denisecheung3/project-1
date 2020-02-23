@@ -12,6 +12,7 @@ function humanInvaders() {
   let containsHuman = false // for function checkHumansRightWall)
   // let poopExist = false
   let poopInterval
+  let lives = 3
 
 
   //creating the cells and adding it to become children of class="grid". and adding monkey to starting position (cell index 95)
@@ -71,7 +72,7 @@ function humanInvaders() {
     }
     cells[currentMonkey].classList.remove('monkeystyle')
     currentMonkey = null
-    humans = [] 
+    humans = []
   }
 
   // if Human Reaches beyond bottom line 
@@ -270,13 +271,52 @@ function humanInvaders() {
 
     addHumanClass()
 
-    console.log(humans)
+    // console.log(humans)
 
 
 
 
   }, 1000) //don't mess with this, closing bracket for humanMovingIntervalId
 
+  //human shooting net 
+
+  const humanShootNetIntervalId = setInterval(() => {
+    
+    //select eligible human to shoot from 
+
+    // net appears 1 row below random eligible human 
+    let netAppearPosition = humans[humans.length - 1] + width
+    cells[netAppearPosition].classList.add('net')
+
+    //function to check if net collided with Monkey
+    function netCollidedWithMonkey() {
+      return netAppearPosition === currentMonkey
+    }
+
+
+    const netDroppingIntervalId = setInterval(() => {
+
+      if (netCollidedWithMonkey()) {
+        cells[netAppearPosition].classList.remove('net')
+        lives -= 1
+        clearInterval(netDroppingIntervalId)
+
+        //play audio
+      } else if (netAppearPosition > width * width - 1 - width) {
+        cells[netAppearPosition].classList.remove('net')
+        clearInterval(netDroppingIntervalId)
+
+      } else {
+        cells[netAppearPosition].classList.remove('net')
+        netAppearPosition = netAppearPosition + width
+        console.log(netAppearPosition + width)
+        cells[netAppearPosition].classList.add('net')
+      }
+
+    }, 750)
+
+
+  }, 4000)
 
 
 } //don't mess with this, closing bracket for function humanInvaders() 
