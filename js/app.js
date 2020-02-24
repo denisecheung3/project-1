@@ -69,6 +69,7 @@ function humanInvaders() {
 
       if (lives === 0) {
         endGame()
+        currentMonkey = null
         setTimeout(function () {
           console.log('monkey dies because on its final life monkey ran into net')
           play = confirm('You lose!')
@@ -104,8 +105,11 @@ function humanInvaders() {
     for (let i = 0; i < humans.length; i++) {
       cells[humans[i]].classList.remove('humanstyle')
     }
-    cells[currentMonkey].classList.remove('monkeystyle')
-    currentMonkey = null
+    console.log(humans.length)
+    console.log(cells[humans[0]])
+    console.log('endGame function is running')
+    //removed currentMonkey = null
+    cells[currentMonkey].classList.remove('monkeystyle') //this is not happenineg for human reaching kingdom inside colliding left/right 
     humans = []
     if (poop !== null) {
       cells[poop].classList.remove('poopstyle')
@@ -158,9 +162,13 @@ function humanInvaders() {
           clearInterval(poopInterval)
           console.log(humans.length)
           if (humans.length === 0) {
+            // currentMonkey = null don't need this 
             endGame()
             setTimeout(function () {
-              alert('Congratulations, you saved the Monkey Kingdom!')
+              play = confirm('Congratulations, you saved the Monkey Kingdom!')
+              if (play) {
+                window.location.reload()
+              } 
             }, 300)
           }
 
@@ -224,11 +232,18 @@ function humanInvaders() {
         if (isCollidingRight()) { //check if colliding right 
           humans = humans.map((elem) => { //if YES colliding right, update numbers in human array to reflect human's new positions, which is one row down
             if (elem + width > width * width - 1) {
-              console.log('tried to end game')
+              console.log('tried to end game right')
               clearInterval(humanMovingIntervalId)
+              clearInterval(humanShootNetIntervalId)
+              currentMonkey = null 
+              cells[currentMonkey].classList.remove('monkeystyle')
+              for (let i = 0; i < humans.length; i++) {
+                cells[humans[i + 10]].classList.remove('humanstyle') // + 10 is crucial as the humans have moved down at this point
+              }
               endGame()
+              currentMonkey = null
 
-            } else {
+            } else { //not at kingdom yet so can move down
               return elem + width
             }
           })
@@ -241,9 +256,15 @@ function humanInvaders() {
         if (isCollidingLeft()) { //check if collided left
           humans = humans.map((elem) => {
             if (elem + width > width * width - 1) {
-              console.log('tried to end game')
+              console.log('tried to end game left')
               clearInterval(humanMovingIntervalId)
-              endGame()
+              clearInterval(humanShootNetIntervalId)
+              console.log('currentMonkey') 
+              cells[currentMonkey].classList.remove('monkeystyle')
+              for (let i = 0; i < humans.length; i++) {
+                cells[humans[i + 10]].classList.remove('humanstyle') // + 10 is crucial as the humans have moved down at this point
+              }
+              endGame() //endgame does run, and inside endgame it should remove the humanclass
             } else {
               return elem + width
             }
@@ -284,6 +305,7 @@ function humanInvaders() {
       console.log('we collided')
       clearInterval(humanMovingIntervalId)
       endGame()
+      currentMonkey = null
       setTimeout(function () {
         console.log('monkey dies because human collided with monkey')
         play = confirm('You lose! The humans got to you!')
@@ -296,7 +318,7 @@ function humanInvaders() {
 
     }
 
-    addHumanClass()
+    addHumanClass() // causing problems?
 
   }, 1000) //don't mess with this, closing bracket for humanMovingIntervalId
 
@@ -326,6 +348,7 @@ function humanInvaders() {
           clearInterval(poopInterval)
           clearInterval(humanMovingIntervalId)
           endGame()
+          currentMonkey = null
           setTimeout(function () {
             console.log('monkey dies because on its final life net hits monkey')
             play = confirm('You lose!')
