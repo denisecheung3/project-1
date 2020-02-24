@@ -1,3 +1,5 @@
+
+
 function start() {
   const startButton = document.querySelector('#startbutton')
   startButton.addEventListener('click', () => {
@@ -5,6 +7,8 @@ function start() {
     startButton.disabled = true
   })
 }
+
+
 
 function humanInvaders() {
   const width = 10
@@ -20,6 +24,8 @@ function humanInvaders() {
   let netAppearPosition
   let netDroppingIntervalId
   const noOfLives = document.querySelector('#nooflives')
+  let play
+
 
   //creating the cells and adding it to become children of class="grid". and adding monkey to starting position (cell index 95)
   for (let i = 0; i < gridCellCount; i++) {
@@ -64,7 +70,13 @@ function humanInvaders() {
       if (lives === 0) {
         endGame()
         setTimeout(function () {
-          alert('You lose!')
+          console.log('monkey dies because on its final life monkey ran into net')
+          play = confirm('You lose!')
+          console.log(play, 'monkey died cuz it ran into net') //not touching this line
+          if (play) {
+            window.location.reload()
+          }
+
         }, 500)
 
       }
@@ -149,7 +161,7 @@ function humanInvaders() {
             endGame()
             setTimeout(function () {
               alert('Congratulations, you saved the Monkey Kingdom!')
-            }, 300) 
+            }, 300)
           }
 
         }
@@ -212,8 +224,10 @@ function humanInvaders() {
         if (isCollidingRight()) { //check if colliding right 
           humans = humans.map((elem) => { //if YES colliding right, update numbers in human array to reflect human's new positions, which is one row down
             if (elem + width > width * width - 1) {
+              console.log('tried to end game')
               clearInterval(humanMovingIntervalId)
               endGame()
+
             } else {
               return elem + width
             }
@@ -227,6 +241,7 @@ function humanInvaders() {
         if (isCollidingLeft()) { //check if collided left
           humans = humans.map((elem) => {
             if (elem + width > width * width - 1) {
+              console.log('tried to end game')
               clearInterval(humanMovingIntervalId)
               endGame()
             } else {
@@ -269,6 +284,15 @@ function humanInvaders() {
       console.log('we collided')
       clearInterval(humanMovingIntervalId)
       endGame()
+      setTimeout(function () {
+        console.log('monkey dies because human collided with monkey')
+        play = confirm('You lose! The humans got to you!')
+        console.log(play, 'monkey dued cuz human collided with monkey')
+        if (play) {
+          window.location.reload()
+        } 
+      }, 300)
+      
 
     }
 
@@ -303,10 +327,19 @@ function humanInvaders() {
           clearInterval(humanMovingIntervalId)
           endGame()
           setTimeout(function () {
-            alert('You lose!')
-          }, 300) 
+            console.log('monkey dies because on its final life net hits monkey')
+            play = confirm('You lose!')
+            console.log(play, 'monkey dies cuz net hit monkey')
+            if (play) {
+              window.location.reload()
+            }
+          }, 300)
 
+          
         }
+
+
+        
 
         //play audio
       } else if (netAppearPosition > width * width - 1 - width) {

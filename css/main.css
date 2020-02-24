@@ -32,7 +32,7 @@ margin-top: 10px;
   width: 550px;
   height: 550px;
   flex-wrap: wrap;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 /* cellstyle is flex children of flex parent (.grid)  */
 .cellstyle { 
@@ -66,6 +66,7 @@ margin-top: 10px;
   display: flex;
   align-items: flex-start;
   margin-bottom: -100px;
+  margin-top: -20px;
   
 }
 
@@ -107,8 +108,8 @@ p {
   height: 30px; 
   display: flex;
   align-items: center;
-  border: 1px solid red;
   margin-left: 550px;
+  margin-top: -10px;
 
 }
 
@@ -134,6 +135,7 @@ p {
   font-weight: bold;
   text-align: center;
   padding-top: 5px;
+  margin-top: -20px;
 
 }
 
@@ -147,6 +149,8 @@ p {
 h1 {
   font-family: 'Bree Serif';
   font-size: 48px;
+  text-align: center;
+  margin-left: 70px;
 }
 
 .emphasis {
