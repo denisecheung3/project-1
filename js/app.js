@@ -53,8 +53,6 @@ function humanInvaders() {
       cells[currentMonkey].classList.add('monkeystyle')
     }
 
-    console.log('currentMonkey', currentMonkey)
-    console.log('netAppearPosition', netAppearPosition)
 
     if (currentMonkey === netAppearPosition) { //if monkey walks into net
       cells[netAppearPosition].classList.remove('net') //copied this line and the 3 lines to follow from net stuff. so could refactor
@@ -65,8 +63,11 @@ function humanInvaders() {
 
       if (lives === 0) {
         endGame()
-      }
+        setTimeout(function () {
+          alert('You lose!')
+        }, 500)
 
+      }
     }
   })
 
@@ -97,6 +98,10 @@ function humanInvaders() {
     if (poop !== null) {
       cells[poop].classList.remove('poopstyle')
     }
+    console.log('endGame ran')
+    // if (lives === 0) {
+    //   alert('You lose!')
+    // }
   }
 
   // if Human Reaches beyond bottom line 
@@ -135,7 +140,7 @@ function humanInvaders() {
         }
 
         if (!isPoopCollidingWithHuman()) {
-          cells[poop].classList.remove('poopstyle') 
+          cells[poop].classList.remove('poopstyle')
           poop -= width //so poop only appears in the row above if not colliding
           cells[poop].classList.add('poopstyle')
           // console.log('not collided with humans')
@@ -189,7 +194,7 @@ function humanInvaders() {
         haspoopCollidedWithHuman = true
         clearInterval(poopInterval)
       }
-    
+
       function isCollidingRight() {
         return humans.some((elem) => {
           return elem % width === width - 1 //this will return true or false 
@@ -296,9 +301,13 @@ function humanInvaders() {
 
         if (lives === 0) {
           clearInterval(humanShootNetIntervalId)
-          clearInterval(poopInterval) // doesn't do what i want 
+          clearInterval(poopInterval)
           clearInterval(humanMovingIntervalId)
           endGame()
+          setTimeout(function () {
+            alert('You lose!')
+          }, 300) 
+
         }
 
         //play audio
