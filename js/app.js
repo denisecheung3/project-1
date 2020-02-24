@@ -1,16 +1,10 @@
-
-
 function start() {
   const startButton = document.querySelector('#startbutton')
   startButton.addEventListener('click', () => {
     humanInvaders()
     startButton.disabled = true
-
   })
-
 }
-
-
 
 function humanInvaders() {
   const width = 10
@@ -20,16 +14,12 @@ function humanInvaders() {
   let currentMonkey = 95
   let humans = [2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26, 27]
   let poop = null
-  let containsHuman = false // for function checkHumansRightWall)
   // let poopExist = false
   let poopInterval
   let lives = 3
   let netAppearPosition
   let netDroppingIntervalId
   const noOfLives = document.querySelector('#nooflives')
-
-
-
 
   //creating the cells and adding it to become children of class="grid". and adding monkey to starting position (cell index 95)
   for (let i = 0; i < gridCellCount; i++) {
@@ -47,7 +37,6 @@ function humanInvaders() {
   document.addEventListener('keydown', (event) => {
     console.log(event.key) //this shows you in console which key the user has pressed on
     if (event.key === 'ArrowRight') {
-
       if (currentMonkey === cells.length - 1) { //this is if monkey is at cell 99
         return //return so it doesn't do anything, won't let Monkey go outside the grid
       }
@@ -68,11 +57,9 @@ function humanInvaders() {
     console.log('netAppearPosition', netAppearPosition)
 
     if (currentMonkey === netAppearPosition) { //if monkey walks into net
-      console.log(currentMonkey === netAppearPosition)
       cells[netAppearPosition].classList.remove('net') //copied this line and the 3 lines to follow from net stuff. so could refactor
       netAppearPosition = null
       lives -= 1
-      console.log(lives)
       clearInterval(netDroppingIntervalId)
       noOfLives.innerHTML = `LIVES: ${lives}`
 
@@ -80,11 +67,7 @@ function humanInvaders() {
         endGame()
       }
 
-
-
     }
-
-
   })
 
   //humans at starting position. don't forget cells is array/ 
@@ -96,7 +79,6 @@ function humanInvaders() {
   function isPoopCollidingWithHuman() {
     // console.log(humans.includes(poop)) //prints true when collides
     return humans.includes(poop)
-
   }
 
   // function to check if human collided with monkey
@@ -115,7 +97,6 @@ function humanInvaders() {
     if (poop !== null) {
       cells[poop].classList.remove('poopstyle')
     }
-    // cells[poop].classList.remove('poopstyle') // will throw error if no poop exists 
   }
 
   // if Human Reaches beyond bottom line 
@@ -135,10 +116,6 @@ function humanInvaders() {
   //   return
   // } else {
   document.addEventListener('keydown', (event) => {
-    //only one poop at once option 1. do this. 
-    //option 2, debug why is it breaking because. poop logic is interferring 
-    // wHY IS POOP LOGIC BREAKING?? 
-
     if (event.keyCode === 32) {
       if (poop === 0 || poop > 0) { //cuz poop>=0 didn't work as it had problems with poop = null. because when poop = null, poop>=0. couldn't shoot because it was just returning. 
         return
@@ -151,17 +128,14 @@ function humanInvaders() {
       poopInterval = setInterval(() => {
 
         if (poop < width) {
-          console.log('im negative')
           cells[poop].classList.remove('poopstyle')
           poop = null
           clearInterval(poopInterval)
           return
         }
 
-
-
         if (!isPoopCollidingWithHuman()) {
-          cells[poop].classList.remove('poopstyle') // causing errors
+          cells[poop].classList.remove('poopstyle') 
           poop -= width //so poop only appears in the row above if not colliding
           cells[poop].classList.add('poopstyle')
           // console.log('not collided with humans')
@@ -172,7 +146,6 @@ function humanInvaders() {
           cells[poop].classList.remove('humanstyle')
           poop = null //hack so poop doesn't stay there
           // poopExist = false
-          //this returns an array of 17 the first time one human is down!
           haspoopCollidedWithHuman = true
           clearInterval(poopInterval)
 
@@ -181,25 +154,10 @@ function humanInvaders() {
 
 
       }, 450) //don't remove, poopShooting Interval end brackets 
-      // const forEachCell = cells.forEach((cell) => {
-      //   if (cell.classList.contains('poop') && cell.classList.contains('human')) {
-      //     return true
-      //   } else { 
-      //     return false
-      //   }
-      // })
-      // if (forEachCell) { 
 
     }
 
   }) // don't remove, space bar / poop shooting closing brackets 
-
-
-
-
-
-
-
 
   //variables to help make decisions within set intervals 
   let isGoingRight = true
@@ -221,7 +179,6 @@ function humanInvaders() {
     // updates the human array so human will go down/right. left 
     function updateHumanArray() {
 
-
       if (isPoopCollidingWithHuman()) {
         humans.splice(humans.indexOf(poop), 1) //remove the human from array of number values in human array
         cells[poop].classList.remove('poopstyle')
@@ -232,7 +189,7 @@ function humanInvaders() {
         haspoopCollidedWithHuman = true
         clearInterval(poopInterval)
       }
-      //to check if potential top row of humans collided with right wall. (they are protected by humans below so only care about top row)
+    
       function isCollidingRight() {
         return humans.some((elem) => {
           return elem % width === width - 1 //this will return true or false 
@@ -314,18 +271,10 @@ function humanInvaders() {
 
     addHumanClass()
 
-    // console.log(humans)
-
-
-
-
   }, 1000) //don't mess with this, closing bracket for humanMovingIntervalId
 
   //human shooting net 
-
   const humanShootNetIntervalId = setInterval(() => {
-
-
 
     // net appears 1 row below last human 
     netAppearPosition = humans[humans.length - 1] + width
@@ -335,7 +284,6 @@ function humanInvaders() {
     function netCollidedWithMonkey() {
       return netAppearPosition === currentMonkey
     }
-
 
     netDroppingIntervalId = setInterval(() => {
 

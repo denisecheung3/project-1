@@ -39,7 +39,7 @@ margin-top: 10px;
   width: 10%;
   height: 10%;
   /* border: 1px solid pink; */
-  background-color: white;
+  background-color: rgba(249, 226, 144, 1);
 }
 
 
@@ -49,8 +49,9 @@ margin-top: 10px;
 }
 
 .humanstyle {
-  background-image: url('http://cliparts101.com/files/247/95F9ADD4C78201E98B78A1F4C218EF52/Hunter.png');
-/* background-image: url('images/hunter1.png'); */
+  /* background-image: url('http://cliparts101.com/files/247/95F9ADD4C78201E98B78A1F4C218EF52/Hunter.png'); */
+  background-image: url('http://clipart-library.com/images_k/hunter-silhouette-vector/hunter-silhouette-vector-6.png');
+/* background-image: url('images/hunter2.png'); */
   background-size: contain;
 
 }
@@ -116,7 +117,8 @@ p {
 }
 
 .net {
-  background-image: url("https://m.media-amazon.com/images/I/61F0vETEmAL._SR500,500_.jpg");
+  /* background-image: url("https://m.media-amazon.com/images/I/61F0vETEmAL._SR500,500_.jpg"); */
+  background-image: url("https://i.ya-webdesign.com/images/rope-net-png.png");
   background-size: contain; 
 }
 
@@ -127,7 +129,6 @@ p {
 #kingdom {
   width: 550px;
   height: 30px; 
-  border: 1px solid red;
   margin-left: 550px;
   background-color: gold;
   font-weight: bold;
