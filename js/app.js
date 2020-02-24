@@ -41,7 +41,6 @@ function humanInvaders() {
 
   //moving the monkey 
   document.addEventListener('keydown', (event) => {
-    console.log(event.key) //this shows you in console which key the user has pressed on
     if (event.key === 'ArrowRight') {
       if (currentMonkey === cells.length - 1) { //this is if monkey is at cell 99
         return //return so it doesn't do anything, won't let Monkey go outside the grid
@@ -163,12 +162,13 @@ function humanInvaders() {
           console.log(humans.length)
           if (humans.length === 0) {
             // currentMonkey = null don't need this 
+            clearInterval(netDroppingIntervalId)
             endGame()
             setTimeout(function () {
               play = confirm('Congratulations, you saved the Monkey Kingdom!')
               if (play) {
                 window.location.reload()
-              } 
+              }
             }, 300)
           }
 
@@ -229,46 +229,65 @@ function humanInvaders() {
       // conclusion. function isColldingRight and isColldingLeft checks if humans have touched rightest or leftest column! 
 
       if (!hasJustCollided) { //if NOT just collided
-        if (isCollidingRight()) { //check if colliding right 
-          humans = humans.map((elem) => { //if YES colliding right, update numbers in human array to reflect human's new positions, which is one row down
-            if (elem + width > width * width - 1) {
-              console.log('tried to end game right')
-              clearInterval(humanMovingIntervalId)
-              clearInterval(humanShootNetIntervalId)
-              currentMonkey = null 
-              cells[currentMonkey].classList.remove('monkeystyle')
-              for (let i = 0; i < humans.length; i++) {
-                cells[humans[i + 10]].classList.remove('humanstyle') // + 10 is crucial as the humans have moved down at this point
-              }
-              endGame()
-              currentMonkey = null
+        if (isCollidingRight()) { //check if colliding right
+          const isAnyHumanBelowLastRow = humans.some((elem) => {
+            return elem + width > width * width - 1
 
-            } else { //not at kingdom yet so can move down
-              return elem + width
-            }
           })
 
+          if (isAnyHumanBelowLastRow) {
+            clearInterval(humanMovingIntervalId)
+            clearInterval(humanShootNetIntervalId)
+            cells[currentMonkey].classList.remove('monkeystyle')
+            for (let i = 0; i < humans.length; i++) {
+              cells[humans[i]].classList.remove('humanstyle') // + 10 is crucial as the humans have moved down at this point
+            }
+            console.log('hello 1')
+            endGame()
+            setTimeout(function () {
+              console.log('monkey dies because human collided with monkey')
+              play = confirm('You lose! The humans got to you!')
+              console.log(play, 'monkey dued cuz human collided with monkey')
+              if (play) {
+                window.location.reload()
+              }
+            }, 300)
+
+          } else {
+            humans = humans.map((elem) => { //if YES colliding right, update numbers in human array to reflect human's new positions, which is one row down
+              return elem + width
+            })
+          }
           isGoingRight = false // because we have an if statement if(isGoingRight) then human indexes + 1
           hasJustCollided = true //important so the if(!hasJustCollided) doesn't run again. so don't keep going down!
           return
         }
 
         if (isCollidingLeft()) { //check if collided left
-          humans = humans.map((elem) => {
-            if (elem + width > width * width - 1) {
-              console.log('tried to end game left')
-              clearInterval(humanMovingIntervalId)
-              clearInterval(humanShootNetIntervalId)
-              console.log('currentMonkey') 
-              cells[currentMonkey].classList.remove('monkeystyle')
-              for (let i = 0; i < humans.length; i++) {
-                cells[humans[i + 10]].classList.remove('humanstyle') // + 10 is crucial as the humans have moved down at this point
-              }
-              endGame() //endgame does run, and inside endgame it should remove the humanclass
-            } else {
-              return elem + width
-            }
+          const isAnyHumanBelowLastRow = humans.some((elem) => {
+            return elem + width > width * width - 1
           })
+
+          if (isAnyHumanBelowLastRow) {
+            clearInterval(humanMovingIntervalId)
+            clearInterval(humanShootNetIntervalId)
+            cells[currentMonkey].classList.remove('monkeystyle')
+            for (let i = 0; i < humans.length; i++) {
+              cells[humans[i]].classList.remove('humanstyle') // + 10 is crucial as the humans have moved down at this point
+            }
+            endGame() //endgame does run, and inside endgame it should remove the humanclass
+            setTimeout(function () {
+              console.log('monkey dies because human collided with monkey')
+              play = confirm('You lose! The humans got to you!')
+              if (play) {
+                window.location.reload()
+              }
+            }, 300)
+          } else {
+            humans = humans.map((elem) => {
+              return elem + width
+            })
+          }
           isGoingRight = true
           hasJustCollided = true
           return
@@ -312,9 +331,9 @@ function humanInvaders() {
         console.log(play, 'monkey dued cuz human collided with monkey')
         if (play) {
           window.location.reload()
-        } 
+        }
       }, 300)
-      
+
 
     }
 
@@ -358,11 +377,11 @@ function humanInvaders() {
             }
           }, 300)
 
-          
+
         }
 
 
-        
+
 
         //play audio
       } else if (netAppearPosition > width * width - 1 - width) {
