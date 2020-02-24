@@ -112,14 +112,6 @@ function humanInvaders() {
   }
 
   //monkey shooting poop
-  // let haspoopCollidedWithHuman = false
-  // let poopExist = false
-  // const poopExistence = setInterval(() => {
-
-  // if (poopExist) {
-  //   console.log('there is a poop')
-  //   return
-  // } else {
   document.addEventListener('keydown', (event) => {
     if (event.keyCode === 32) {
       if (poop === 0 || poop > 0) { //cuz poop>=0 didn't work as it had problems with poop = null. because when poop = null, poop>=0. couldn't shoot because it was just returning. 
@@ -150,9 +142,15 @@ function humanInvaders() {
           cells[poop].classList.remove('poopstyle')
           cells[poop].classList.remove('humanstyle')
           poop = null //hack so poop doesn't stay there
-          // poopExist = false
           haspoopCollidedWithHuman = true
           clearInterval(poopInterval)
+          console.log(humans.length)
+          if (humans.length === 0) {
+            endGame()
+            setTimeout(function () {
+              alert('Congratulations, you saved the Monkey Kingdom!')
+            }, 300) 
+          }
 
         }
         poopCollidedWithHuman = false
