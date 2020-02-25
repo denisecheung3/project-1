@@ -1,22 +1,50 @@
 
+let levelCompleted = 0
+if (localStorage) { //localstorage
+  levelCompleted = Number(localStorage.getItem('levelcompleted'))
+  console.log(levelCompleted)
+}
 
 function start() {
   const startButton = document.querySelector('#startbutton')
-  startButton.addEventListener('click', () => {
-    humanInvaders()
-    startButton.disabled = true
-  })
+
+  if (levelCompleted === 1) {
+    startButton.addEventListener('click', () => {
+      testLevel2()
+      startButton.disabled = true
+    })
+  } else {
+    startButton.addEventListener('click', () => {
+      humanInvaders()
+      startButton.disabled = true
+    })
+  }
+
 }
 
+function testLevel2() {
+  console.log('level 2')
+  localStorage.removeItem('levelcompleted')
+}
 
+// returns the right humans for the level
+function getHumans() {
+  if (levelCompleted === 1) {
+    return [2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 15, 16, 17, 18, 22, 23, 24, 25, 26, 27, 28]
+  } else {
+    return [2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26, 27]
+  }
+
+}
 
 function humanInvaders() {
+
   const width = 10
   const gridCellCount = width * width
   const grid = document.querySelector('.grid')
   const cells = []
   let currentMonkey = 95
-  let humans = [2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26, 27]
+  let humans = getHumans()
   let poop = null
   // let poopExist = false
   let poopInterval
@@ -168,23 +196,25 @@ function humanInvaders() {
           cells[poop].classList.remove('poopstyle')
           cells[poop].classList.remove('humanstyle')
           poop = null //hack so poop doesn't stay there
-          haspoopCollidedWithHuman = true
+          haspoopCollidedWithHuman = true //why do i need this?? 
           clearInterval(poopInterval)
           console.log(humans.length)
           if (humans.length === 0) {
-            // currentMonkey = null don't need this 
             clearInterval(netDroppingIntervalId)
             endGame()
+            if (localStorage) {
+              localStorage.setItem('levelcompleted', 1)
+            }
             setTimeout(function () {
               play = confirm('Congratulations, you saved the Monkey Kingdom!')
               if (play) {
                 window.location.reload()
               }
-            }, 300)
+            }, 500)
           }
 
         }
-        poopCollidedWithHuman = false
+        poopCollidedWithHuman = false //why do i need this?? 
 
 
       }, 450) //don't remove, poopShooting Interval end brackets 
