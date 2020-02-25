@@ -11,6 +11,7 @@ function start() {
   if (levelCompleted === 1) {
     startButton.addEventListener('click', () => {
       testLevel2()
+      humanInvaders()
       startButton.disabled = true
     })
   } else {
@@ -30,7 +31,7 @@ function testLevel2() {
 // returns the right humans for the level
 function getHumans() {
   if (levelCompleted === 1) {
-    return [2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 15, 16, 17, 18, 22, 23, 24, 25, 26, 27, 28]
+    return [2, 3, 4, 5, 6, 7, 8, 12, 13, 14, 15, 16, 17, 18, 22, 23, 24, 25, 26, 27, 28, 32, 33, 34, 35, 36, 37, 38]
   } else {
     return [2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26, 27]
   }
@@ -242,8 +243,9 @@ function humanInvaders() {
 
     // updates the human array so human will go down/right. left 
     function updateHumanArray() {
-
-      if (isPoopCollidingWithHuman()) {
+      const isPoopColliding = isPoopCollidingWithHuman()
+      console.log(isPoopColliding)
+      if (isPoopColliding) {
         playhumanScream()
         humans.splice(humans.indexOf(poop), 1) //remove the human from array of number values in human array
         cells[poop].classList.remove('poopstyle')
