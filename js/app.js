@@ -25,7 +25,18 @@ function humanInvaders() {
   let netDroppingIntervalId
   const noOfLives = document.querySelector('#nooflives')
   let play
+  let monkeyScream = new Audio('audio/monkeyscream.wav')
+  let humanScream = new Audio('audio/poophitshuman.m4a')
 
+  function playmonkeyScream() {
+    monkeyScream.play()
+  }
+
+  function playhumanScream() {
+    humanScream.play()
+    console.log('human screamed')
+
+  }
 
   //creating the cells and adding it to become children of class="grid". and adding monkey to starting position (cell index 95)
   for (let i = 0; i < gridCellCount; i++) {
@@ -63,6 +74,7 @@ function humanInvaders() {
       cells[netAppearPosition].classList.remove('net') //copied this line and the 3 lines to follow from net stuff. so could refactor
       netAppearPosition = null
       lives -= 1
+      playmonkeyScream()
       clearInterval(netDroppingIntervalId)
       noOfLives.innerHTML = `LIVES: ${lives}`
 
@@ -90,7 +102,6 @@ function humanInvaders() {
 
   //function to check if poop is colliding with human 
   function isPoopCollidingWithHuman() {
-    // console.log(humans.includes(poop)) //prints true when collides
     return humans.includes(poop)
   }
 
@@ -203,6 +214,7 @@ function humanInvaders() {
     function updateHumanArray() {
 
       if (isPoopCollidingWithHuman()) {
+        playhumanScream()
         humans.splice(humans.indexOf(poop), 1) //remove the human from array of number values in human array
         cells[poop].classList.remove('poopstyle')
         cells[poop].classList.remove('humanstyle')
@@ -358,7 +370,9 @@ function humanInvaders() {
       if (netCollidedWithMonkey()) {
         cells[netAppearPosition].classList.remove('net')
         lives -= 1
+        playmonkeyScream()
         netAppearPosition = null
+
         clearInterval(netDroppingIntervalId)
         noOfLives.innerHTML = `Lives: ${lives}`
 
