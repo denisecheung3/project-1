@@ -25,7 +25,7 @@ function start() {
 
 function testLevel2() {
   console.log('level 2')
-  localStorage.removeItem('levelcompleted')
+  // localStorage.removeItem('levelcompleted')
 }
 
 // returns the right humans for the level

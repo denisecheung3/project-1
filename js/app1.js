@@ -14,10 +14,12 @@ function newHumanInvaders() {
   let currentMonkey = 95
   let humans = [2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26, 27]
   let poop = null
-  let net = null
+  let currentNet = null
   let lives = 3
   let hasJustCollided = false
   let isGoingLeft = false
+  let play
+  let doesNetExist = false
 
   //creating the cells inside the grid 
   for (let i = 0; i < gridCellCount; i++) {
@@ -50,12 +52,25 @@ function newHumanInvaders() {
     for (let i = 0; i < humans.length; i++) {
       cells[humans[i]].classList.add('humanstyle')
     }
-
+    /// section to render net dropping 
+    cells.forEach(cell => {
+      cell.classList.remove('net')
+    })
+    cells[currentNet].classList.add('net')
   }
 
   // function playLost 
   function playerLost() {
     console.log('player lost')
+    clearInterval(humanMovingIntervalId) //humans stopped moving but the humans are still displayed 
+    setTimeout(function () {
+      console.log('monkey dies because human collided with monkey')
+      play = confirm('You lose! The humans got to the Monkey Kongdom! Would you like to play again?')
+      console.log(play, 'monkey dued cuz human collided with monkey')
+      if (play) {
+        window.location.reload()
+      }
+    }, 300)
   }
 
   //moving monkey 
@@ -100,9 +115,9 @@ function newHumanInvaders() {
       if (hasJustCollided === true) {
         isGoingLeft = true
         humans = humans.map((elem) => {
-          return elem - 1 
+          return elem - 1
         })
-        hasJustCollided = false 
+        hasJustCollided = false
       } else {
         humans = humans.map((elem) => {
           return elem + width
@@ -119,7 +134,7 @@ function newHumanInvaders() {
         humans = humans.map((elem) => {
           return elem + 1
         })
-        hasJustCollided = false 
+        hasJustCollided = false
       } else {
         humans = humans.map((elem) => {
           return elem + width
@@ -150,12 +165,51 @@ function newHumanInvaders() {
 
   }, 1000)
 
-}
+  //Set Interval - Net Moving Down 
+  const NetDroppingIntervalId = setInterval(() => {
+    //functions needed for net moving down interval
+    function didNetCollidewithMonkey() {
+      return currentNet === currentMonkey
+    }
+
+    function isNetAtBottomRow() {
+      console.log(currentNet >= width * width - width) 
+      return currentNet >= width * width - width  //UNSURE 
+    }
+
+    //updating the variables 
+    if (doesNetExist) {
+      console.log('net Exists')
+      if (didNetCollidewithMonkey()) {
+        console.log('net collided with Monkey')
+        currentNet = null
+        doesNetExist = false
+        //play audio 
+        lives -= 1
+        if (lives === 0) {
+          playerLost()
+        }
+      } else {
+        console.log('net does not exist')
+        if (isNetAtBottomRow()) {
+          console.log('net is at bottom row')
+          currentNet = null 
+          doesNetExist = false 
+        } else {
+          currentNet += width
+          console.log('net goes down one row')
+        }
+
+      }
+    } else {
+      currentNet = humans[humans.length - 1] + width //UNSURE
+      doesNetExist = true 
+    }
+    renderGame()
+  }, 450)
 
 
-
-
-
+} //end of newHumanInvaders function 
 
 
 window.addEventListener('DOMContentLoaded', start)
