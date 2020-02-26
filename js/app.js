@@ -25,7 +25,7 @@ function start() {
 
 function testLevel2() {
   console.log('level 2')
-  // localStorage.removeItem('levelcompleted')
+  localStorage.removeItem('levelcompleted')
 }
 
 // returns the right humans for the level
@@ -39,7 +39,6 @@ function getHumans() {
 }
 
 function humanInvaders() {
-
   const width = 10
   const gridCellCount = width * width
   const grid = document.querySelector('.grid')
@@ -56,15 +55,18 @@ function humanInvaders() {
   let play
   let monkeyScream = new Audio('audio/monkeyscream.wav')
   let humanScream = new Audio('audio/poophitshuman.m4a')
+  let themeSong = new Audio('audio/themesong.mp3')
+  playThemeSong()
 
   function playmonkeyScream() {
     monkeyScream.play()
   }
-
   function playhumanScream() {
     humanScream.play()
     console.log('human screamed')
-
+  }
+  function playThemeSong() {
+    themeSong.play()
   }
 
   //creating the cells and adding it to become children of class="grid". and adding monkey to starting position (cell index 95)
@@ -104,7 +106,7 @@ function humanInvaders() {
       netAppearPosition = null
       lives -= 1
       playmonkeyScream()
-      clearInterval(netDroppingIntervalId)
+      // clearInterval(netDroppingIntervalId)
       noOfLives.innerHTML = `LIVES: ${lives}`
 
       if (lives === 0) {
@@ -425,9 +427,6 @@ function humanInvaders() {
 
 
         }
-
-
-
 
         //play audio
       } else if (netAppearPosition > width * width - 1 - width) {

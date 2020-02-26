@@ -2,10 +2,10 @@ function start() {
   const startButton = document.querySelector('#startbutton')
   startButton.addEventListener('click', () => {
     newHumanInvaders()
+
     startButton.disabled = true
   })
 }
-
 function newHumanInvaders() {
   const width = 10
   const gridCellCount = width * width
@@ -20,6 +20,13 @@ function newHumanInvaders() {
   let isGoingLeft = false
   let play
   let doesNetExist = false
+  let doesPoopExist = false
+  let monkeyScream = new Audio('audio/monkeyscream.wav')
+  let humanScream = new Audio('audio/poophitshuman.m4a')
+  let themeSong = new Audio('audio/themesong.mp3')
+  const noOfLives = document.querySelector('#nooflives')
+  let PoopShootingIntervalId
+  playThemeSong()
 
   //creating the cells inside the grid 
   for (let i = 0; i < gridCellCount; i++) {
@@ -32,10 +39,18 @@ function newHumanInvaders() {
     cells.push(cell)
   }
 
-  // //UNSURE - human starting position 
-  // for (let i = 0; i < humans.length; i++) {
-  //   cells[humans[i]].classList.add('humanstyle')
-  // }
+  //functions to play audio
+  function playmonkeyScream() {
+    monkeyScream.play()
+  }
+
+  function playhumanScream() {
+    humanScream.play()
+
+  }
+  function playThemeSong() {
+    themeSong.play()
+  }
 
   // function renderGame 
   function renderGame() {
@@ -48,7 +63,6 @@ function newHumanInvaders() {
     cells.forEach(cell => {
       cell.classList.remove('humanstyle')
     })
-
     for (let i = 0; i < humans.length; i++) {
       cells[humans[i]].classList.add('humanstyle')
     }
@@ -56,21 +70,57 @@ function newHumanInvaders() {
     cells.forEach(cell => {
       cell.classList.remove('net')
     })
-    cells[currentNet].classList.add('net')
+    if (currentNet) {
+      cells[currentNet].classList.add('net')
+    }
+    /// section to render poop
+    cells.forEach(cell => {
+      cell.classList.remove('poop')
+    })
+    if (poop) {
+      cells[poop].classList.add('poop')
+    }
   }
 
-  // function playLost 
+  // function playerost 
   function playerLost() {
     console.log('player lost')
     clearInterval(humanMovingIntervalId) //humans stopped moving but the humans are still displayed 
     setTimeout(function () {
-      console.log('monkey dies because human collided with monkey')
       play = confirm('You lose! The humans got to the Monkey Kongdom! Would you like to play again?')
-      console.log(play, 'monkey dued cuz human collided with monkey')
       if (play) {
         window.location.reload()
       }
     }, 300)
+  }
+
+  //function playerWon
+  function playerWon() {
+    console.log('player lost')
+    clearInterval(humanMovingIntervalId) //humans stopped moving but the humans are still displayed 
+    setTimeout(function () {
+      play = confirm('You won! You saved the Monkey Kingdom!')
+      if (play) {
+        window.location.reload()
+      }
+    }, 300)
+  }
+
+  //function poop colliding with human or human colliding with poop
+  function didPoopCollideWithHuman() {
+    return humans.includes(poop)
+  }
+
+  // function poopKilledHuman() 
+  function poopKilledHuman() {
+    humans.splice(humans.indexOf(poop), 1)
+    poop = null
+    doesPoopExist = false
+    playhumanScream()
+    clearInterval(PoopShootingIntervalId)
+    if (humans.length === 0) {
+      playerWon()
+    }
   }
 
   //moving monkey 
@@ -85,6 +135,17 @@ function newHumanInvaders() {
         return
       }
       currentMonkey -= 1
+    }
+    if (currentMonkey === currentNet) {
+      lives -= 1
+      noOfLives.innerHTML = `LIVES: ${lives}`
+      playmonkeyScream()
+      // clearInterval(NetDroppingIntervalId)
+      currentNet = null
+      doesNetExist = false
+    }
+    if (lives === 0) {
+      playerLost()
     }
     renderGame()
   })
@@ -110,7 +171,17 @@ function newHumanInvaders() {
       })
     }
 
+
+    // function UpdateHumanGoOneCellRight() {
+    //   humans.map((elem) => {
+    //     return elem + 1
+    //   })
+    // }
+
     //updating the variables 
+    if (didPoopCollideWithHuman()) {
+      poopKilledHuman()
+    }
     if (isAnyHumanAtRightestColumn()) {
       if (hasJustCollided === true) {
         isGoingLeft = true
@@ -122,16 +193,15 @@ function newHumanInvaders() {
         humans = humans.map((elem) => {
           return elem + width
         })
-        console.log('I collided right and moved down')
         hasJustCollided = true
-        if (humanReachedLastRow()) { //UNSURE 
+        if (humanReachedLastRow()) { //UNSURE BUT SEEMS OK NOW 
           playerLost()
         }
       }
     } else if (isAnyHumanAtLeftestColumn()) {
       if (hasJustCollided === true) {
         isGoingLeft = false
-        humans = humans.map((elem) => {
+        humans = humans.map((elem) => { //doesn't work if i have humans = humanReachedLastRow() 
           return elem + 1
         })
         hasJustCollided = false
@@ -139,28 +209,23 @@ function newHumanInvaders() {
         humans = humans.map((elem) => {
           return elem + width
         })
-        console.log('I just collided left and moved down')
         hasJustCollided = true
         isGoingLeft = false
-        if (humanReachedLastRow()) { //UNSURE 
+        if (humanReachedLastRow()) { //UNSURE BUT SEEMS OK NOW 
           playerLost()
         }
       }
     } else {
       if (isGoingLeft) {
-        console.log('Im going left')
         humans = humans.map((elem) => {
           return elem - 1
         })
       } else {
-        console.log('Im going right')
         humans = humans.map((elem) => {
           return elem + 1
         })
-        console.log(humans)
       }
     }
-
     renderGame()
 
   }, 1000)
@@ -173,40 +238,80 @@ function newHumanInvaders() {
     }
 
     function isNetAtBottomRow() {
-      console.log(currentNet >= width * width - width) 
       return currentNet >= width * width - width  //UNSURE 
     }
 
     //updating the variables 
     if (doesNetExist) {
-      console.log('net Exists')
       if (didNetCollidewithMonkey()) {
         console.log('net collided with Monkey')
         currentNet = null
         doesNetExist = false
-        //play audio 
+        playmonkeyScream()
         lives -= 1
+        noOfLives.innerHTML = `LIVES: ${lives}`
         if (lives === 0) {
           playerLost()
         }
       } else {
-        console.log('net does not exist')
         if (isNetAtBottomRow()) {
-          console.log('net is at bottom row')
-          currentNet = null 
-          doesNetExist = false 
+          currentNet = null
+          doesNetExist = false
         } else {
           currentNet += width
-          console.log('net goes down one row')
         }
 
       }
     } else {
-      currentNet = humans[humans.length - 1] + width //UNSURE
-      doesNetExist = true 
+      currentNet = humans[humans.length - 1] + width //UNSURE BUT SEEMS OK
+      doesNetExist = true
     }
     renderGame()
   }, 450)
+
+
+  //Set Interval = Monkey Shooting Poop Up 
+  /// spacebar event listener 
+  document.addEventListener('keydown', (event) => {
+    if (event.keyCode === 32) {
+      if (doesPoopExist) { //or !doesPoopExist 
+        console.log('poop exists')
+      } else {
+        poop = currentMonkey - width
+        console.log(poop)
+        doesPoopExist = true
+
+        PoopShootingIntervalId = setInterval(() => {
+
+          /// functions needed for monkey shooting interval 
+
+          function isPoopAtTopRow() {
+            return poop < width
+          }
+
+          if (doesPoopExist) {
+            console.log('should eevereb')
+            if (didPoopCollideWithHuman()) {
+              poopKilledHuman()
+            } else {
+              if (isPoopAtTopRow()) {
+                poop = null
+                doesPoopExist = false
+                clearInterval(PoopShootingIntervalId)
+              } else {
+                console.log('going up', poop)
+                poop -= width
+              }
+            }
+            renderGame()
+          }
+        }, 300)
+      }
+    }
+  })
+
+  /// the actual monkey shooting interval 
+
 
 
 } //end of newHumanInvaders function 
