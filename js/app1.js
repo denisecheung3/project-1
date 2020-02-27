@@ -1,17 +1,72 @@
+let levelCompleted = 0
+if (localStorage) {
+  levelCompleted = Number(localStorage.getItem('levelcompleted'))
+}
+
 function start() {
   const startButton = document.querySelector('#startbutton')
   startButton.addEventListener('click', () => {
     newHumanInvaders()
     startButton.disabled = true
   })
+
+}
+
+function getHumans() {
+  if (levelCompleted === 1) {
+    return [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60]
+  } else {
+    return [2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26, 27]
+  }
+}
+
+function getWidth() {
+  if (levelCompleted === 1) {
+    return 16
+  } else {
+    return 10
+  }
+}
+
+function monkeyStartPosition() {
+  if (levelCompleted === 1) {
+    return 248
+  } else {
+    return 95
+  }
+}
+
+function getNetSpeed() {
+  if (levelCompleted === 1) {
+    return 250
+  } else {
+    return 450
+  }
+}
+
+function getPoopSpeed() {
+  if (levelCompleted === 1) {
+    return 100
+  } else {
+    return 300
+  }
+}
+
+function getHumanSpeed() {
+  if (levelCompleted === 1) {
+    return 500
+  } else {
+    return 1000
+  }
+
 }
 function newHumanInvaders() {
-  const width = 10
+  const width = getWidth()
   const gridCellCount = width * width
   const grid = document.querySelector('.grid')
   const cells = []
-  let currentMonkey = 95
-  let humans = [2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 26, 27]
+  let currentMonkey = monkeyStartPosition()
+  let humans = getHumans()
   let poop = null
   let currentNet = null
   let lives = 3
@@ -20,17 +75,26 @@ function newHumanInvaders() {
   let play
   let doesNetExist = false
   let doesPoopExist = false
+  const noOfLives = document.querySelector('#nooflives')
+  const netSpeed = getNetSpeed()
+  const poopSpeed = getPoopSpeed()
+  const humanSpeed = getHumanSpeed()
   const monkeyScream = new Audio('audio/monkeyscream.wav')
   const humanScream = new Audio('audio/poophitshuman1.m4a')
   const themeSong = new Audio('audio/themesong1.m4a')
-  const noOfLives = document.querySelector('#nooflives')
   let PoopShootingIntervalId
   themeSong.play()
 
+
   //creating the cells inside the grid 
+
   for (let i = 0; i < gridCellCount; i++) {
     const cell = document.createElement('div')
-    cell.classList.add('cellstyle')
+    if (levelCompleted === 1) {
+      cell.classList.add('cellstyleforlevel2')
+    } else {
+      cell.classList.add('cellstyle')
+    }
     if (i === currentMonkey) {
       cell.classList.add('monkeystyle')
     }
@@ -74,8 +138,9 @@ function newHumanInvaders() {
 
   // functiond playerLost / playerWon 
   function playerLost() {
-    console.log('player lost')
-    clearInterval(humanMovingIntervalId) //humans stopped moving but the humans are still displayed 
+    clearInterval(humanMovingIntervalId) //humans stopped moving but the humans are still displayed
+    clearInterval(NetDroppingIntervalId)
+    clearInterval(PoopShootingIntervalId)
     setTimeout(function () {
       play = confirm('You lose! The humans got to the Monkey Kongdom! Would you like to play again?')
       if (play) {
@@ -85,8 +150,12 @@ function newHumanInvaders() {
   }
 
   function playerWon() {
-    console.log('player lost')
-    clearInterval(humanMovingIntervalId) //humans stopped moving but the humans are still displayed 
+    if (localStorage) {
+      localStorage.setItem('levelcompleted', 1)
+    }
+    clearInterval(humanMovingIntervalId) //humans stopped moving but the humans are still displayed
+    clearInterval(NetDroppingIntervalId)
+    clearInterval(PoopShootingIntervalId)
     setTimeout(function () {
       play = confirm('You won! You saved the Monkey Kingdom!')
       if (play) {
@@ -120,7 +189,7 @@ function newHumanInvaders() {
       }
       currentMonkey += 1
     } else if (event.key === 'ArrowLeft') {
-      if (currentMonkey === 90) {
+      if (currentMonkey === width * width - width) {
         return
       }
       currentMonkey -= 1
@@ -217,7 +286,7 @@ function newHumanInvaders() {
     }
     renderGame()
 
-  }, 1000)
+  }, humanSpeed)
 
   //Set Interval - Net Moving Down 
   const NetDroppingIntervalId = setInterval(() => {
@@ -255,7 +324,7 @@ function newHumanInvaders() {
       doesNetExist = true
     }
     renderGame()
-  }, 450)
+  }, netSpeed)
 
   //Set Interval = Monkey Shooting Poop Up 
   /// spacebar event listener 
@@ -285,7 +354,7 @@ function newHumanInvaders() {
             }
             renderGame()
           }
-        }, 300)
+        }, poopSpeed)
       }
     }
   })

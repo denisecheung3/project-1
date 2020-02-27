@@ -28,7 +28,7 @@ margin-top: 10px;
 .grid {
   display: flex;
   flex-direction: row;
-  /* border: 1px solid grey; */
+  border: 1px solid grey;
   width: 550px;
   height: 550px;
   flex-wrap: wrap;
@@ -38,10 +38,15 @@ margin-top: 10px;
 .cellstyle { 
   width: 10%;
   height: 10%;
-  /* border: 1px solid pink; */
+  /* border: 1px solid grey;  */
   background-color: rgba(249, 226, 144, 1);
 }
 
+.cellstyleforlevel2 {
+  width: 6.25%;
+  height: 6.25%;
+  background-color: rgba(249, 226, 144, 1);
+}
 
 .monkeystyle {
   background-image: url('https://www.antimonkeybutt.com/wp-content/uploads/2018/12/slide-runner-370.png');
