@@ -198,12 +198,10 @@ function newHumanInvaders() {
       lives -= 1
       noOfLives.innerHTML = `LIVES: ${lives}`
       playmonkeyScream()
-      // clearInterval(NetDroppingIntervalId)
       currentNet = null
       doesNetExist = false
       if (lives === 0) {
         playerLost()
-        console.log('line139 player lost')
       }
     }
     renderGame()
@@ -320,7 +318,7 @@ function newHumanInvaders() {
 
       }
     } else {
-      currentNet = humans[humans.length - 1] + width //UNSURE BUT SEEMS OK
+      currentNet = humans[humans.length - 1] + width
       doesNetExist = true
     }
     renderGame()
