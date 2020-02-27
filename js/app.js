@@ -20,7 +20,6 @@ function start() {
       startButton.disabled = true
     })
   }
-
 }
 
 function testLevel2() {
@@ -425,10 +424,8 @@ function humanInvaders() {
             }
           }, 300)
 
-
         }
 
-        //play audio
       } else if (netAppearPosition > width * width - 1 - width) {
         cells[netAppearPosition].classList.remove('net')
         clearInterval(netDroppingIntervalId)
@@ -445,10 +442,7 @@ function humanInvaders() {
 
   }, 7000)
 
-
 } //don't mess with this, closing bracket for function humanInvaders() 
-
-
 
 window.addEventListener('DOMContentLoaded', start)
 

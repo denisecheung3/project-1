@@ -2,7 +2,6 @@ function start() {
   const startButton = document.querySelector('#startbutton')
   startButton.addEventListener('click', () => {
     newHumanInvaders()
-
     startButton.disabled = true
   })
 }
@@ -21,12 +20,12 @@ function newHumanInvaders() {
   let play
   let doesNetExist = false
   let doesPoopExist = false
-  let monkeyScream = new Audio('audio/monkeyscream.wav')
-  let humanScream = new Audio('audio/poophitshuman.m4a')
-  let themeSong = new Audio('audio/themesong.mp3')
+  const monkeyScream = new Audio('audio/monkeyscream.wav')
+  const humanScream = new Audio('audio/poophitshuman1.m4a')
+  const themeSong = new Audio('audio/themesong1.m4a')
   const noOfLives = document.querySelector('#nooflives')
   let PoopShootingIntervalId
-  playThemeSong()
+  themeSong.play()
 
   //creating the cells inside the grid 
   for (let i = 0; i < gridCellCount; i++) {
@@ -39,17 +38,8 @@ function newHumanInvaders() {
     cells.push(cell)
   }
 
-  //functions to play audio
-  function playmonkeyScream() {
+  function playmonkeyScream() {   //functions to play audio. this one use twice so in function 
     monkeyScream.play()
-  }
-
-  function playhumanScream() {
-    humanScream.play()
-
-  }
-  function playThemeSong() {
-    themeSong.play()
   }
 
   // function renderGame 
@@ -82,7 +72,7 @@ function newHumanInvaders() {
     }
   }
 
-  // function playerost 
+  // functiond playerLost / playerWon 
   function playerLost() {
     console.log('player lost')
     clearInterval(humanMovingIntervalId) //humans stopped moving but the humans are still displayed 
@@ -94,7 +84,6 @@ function newHumanInvaders() {
     }, 300)
   }
 
-  //function playerWon
   function playerWon() {
     console.log('player lost')
     clearInterval(humanMovingIntervalId) //humans stopped moving but the humans are still displayed 
@@ -116,7 +105,7 @@ function newHumanInvaders() {
     humans.splice(humans.indexOf(poop), 1)
     poop = null
     doesPoopExist = false
-    playhumanScream()
+    humanScream.play()
     clearInterval(PoopShootingIntervalId)
     if (humans.length === 0) {
       playerWon()
@@ -143,9 +132,10 @@ function newHumanInvaders() {
       // clearInterval(NetDroppingIntervalId)
       currentNet = null
       doesNetExist = false
-    }
-    if (lives === 0) {
-      playerLost()
+      if (lives === 0) {
+        playerLost()
+        console.log('line139 player lost')
+      }
     }
     renderGame()
   })
@@ -171,12 +161,23 @@ function newHumanInvaders() {
       })
     }
 
+    function UpdateHumanGoOneCellRight() {
+      return humans.map((elem) => {
+        return elem + 1
+      })
+    }
 
-    // function UpdateHumanGoOneCellRight() {
-    //   humans.map((elem) => {
-    //     return elem + 1
-    //   })
-    // }
+    function UpdateHumanGoOneCellLeft() {
+      return humans.map((elem) => {
+        return elem - 1
+      })
+    }
+
+    function UpdateHumanGoOneRowDown() {
+      return humans.map((elem) => {
+        return elem + width
+      })
+    }
 
     //updating the variables 
     if (didPoopCollideWithHuman()) {
@@ -185,14 +186,10 @@ function newHumanInvaders() {
     if (isAnyHumanAtRightestColumn()) {
       if (hasJustCollided === true) {
         isGoingLeft = true
-        humans = humans.map((elem) => {
-          return elem - 1
-        })
+        humans = UpdateHumanGoOneCellLeft()
         hasJustCollided = false
       } else {
-        humans = humans.map((elem) => {
-          return elem + width
-        })
+        humans = UpdateHumanGoOneRowDown()
         hasJustCollided = true
         if (humanReachedLastRow()) { //UNSURE BUT SEEMS OK NOW 
           playerLost()
@@ -201,14 +198,10 @@ function newHumanInvaders() {
     } else if (isAnyHumanAtLeftestColumn()) {
       if (hasJustCollided === true) {
         isGoingLeft = false
-        humans = humans.map((elem) => { //doesn't work if i have humans = humanReachedLastRow() 
-          return elem + 1
-        })
+        humans = UpdateHumanGoOneCellRight()
         hasJustCollided = false
       } else {
-        humans = humans.map((elem) => {
-          return elem + width
-        })
+        humans = UpdateHumanGoOneRowDown()
         hasJustCollided = true
         isGoingLeft = false
         if (humanReachedLastRow()) { //UNSURE BUT SEEMS OK NOW 
@@ -217,13 +210,9 @@ function newHumanInvaders() {
       }
     } else {
       if (isGoingLeft) {
-        humans = humans.map((elem) => {
-          return elem - 1
-        })
+        humans = UpdateHumanGoOneCellLeft()
       } else {
-        humans = humans.map((elem) => {
-          return elem + 1
-        })
+        humans = UpdateHumanGoOneCellRight()
       }
     }
     renderGame()
@@ -244,7 +233,6 @@ function newHumanInvaders() {
     //updating the variables 
     if (doesNetExist) {
       if (didNetCollidewithMonkey()) {
-        console.log('net collided with Monkey')
         currentNet = null
         doesNetExist = false
         playmonkeyScream()
@@ -269,28 +257,21 @@ function newHumanInvaders() {
     renderGame()
   }, 450)
 
-
   //Set Interval = Monkey Shooting Poop Up 
   /// spacebar event listener 
   document.addEventListener('keydown', (event) => {
     if (event.keyCode === 32) {
       if (doesPoopExist) { //or !doesPoopExist 
-        console.log('poop exists')
       } else {
         poop = currentMonkey - width
-        console.log(poop)
         doesPoopExist = true
 
         PoopShootingIntervalId = setInterval(() => {
-
           /// functions needed for monkey shooting interval 
-
           function isPoopAtTopRow() {
             return poop < width
           }
-
           if (doesPoopExist) {
-            console.log('should eevereb')
             if (didPoopCollideWithHuman()) {
               poopKilledHuman()
             } else {
@@ -299,7 +280,6 @@ function newHumanInvaders() {
                 doesPoopExist = false
                 clearInterval(PoopShootingIntervalId)
               } else {
-                console.log('going up', poop)
                 poop -= width
               }
             }
@@ -310,12 +290,7 @@ function newHumanInvaders() {
     }
   })
 
-  /// the actual monkey shooting interval 
-
-
-
 } //end of newHumanInvaders function 
-
 
 window.addEventListener('DOMContentLoaded', start)
 window.addEventListener('keydown', function (e) {
