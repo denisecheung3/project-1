@@ -55,7 +55,7 @@ function humanInvaders() {
   let play
   let monkeyScream = new Audio('audio/monkeyscream.wav')
   let humanScream = new Audio('audio/poophitshuman.m4a')
-  let themeSong = new Audio('audio/themesong.mp3')
+  let themeSong = new Audio('audio/themesong1.m4a')
   playThemeSong()
 
   function playmonkeyScream() {
