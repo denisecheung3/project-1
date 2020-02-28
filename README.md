@@ -1,8 +1,10 @@
 
-# Human Invaders 👨🐒
-
+### ![GA](https://cloud.githubusercontent.com/assets/40461/8183776/469f976e-1432-11e5-8199-6ac91363302b.png) General Assembly, Software Engineering Immersive
+# Human Invaders  <img src="./images/hunter2.png" width ="50"> 
 
 ## Overview 
+
+- <img src="./assets/screenshots/gridlevel1screenshot.jpg" width="450"/> 
 
 
 My task was to create a grid-based game rendered in the browser using HTML, CSS and JavaScript. I completed the project individually within one week during the Software Engineering Bootcamp at General Assembly ('GA'). 
@@ -11,6 +13,7 @@ GA gave us a selection of arcade games to choose from. I decided to take on _Spa
 
 The project was an opportunity to put together the knowledge I learnt on JavaScript and manipulating the DOM while recreating a classic game.
 
+You can launch the game on GitHub pages [here](https://denisecheung3.github.io/project-1/), or find the GitHub repo [here](https://github.com/katheich/vac-man).
 
 
 ## Brief
@@ -74,15 +77,14 @@ The project was an opportunity to put together the knowledge I learnt on JavaScr
   } else {
     return 10
   }
-
   ``` 
 <br>
 
 - Snapshots of the grid for level 1 and 2 (it isn't visible during gameplay)
 
-- <img src="./assets/screenshots/gridlevel1screenshot.jpg" width="300"/> 
+- <img src="./assets/screenshots/gridlevel1screenshot.jpg" width="450"/> 
 
-- <img src="./assets/screenshots/gridlevel2screenshot.jpg" width="300"/>
+- <img src="./assets/screenshots/gridlevel2screenshot.jpg" width="450"/>
 
 <br>
 
@@ -117,8 +119,7 @@ The project was an opportunity to put together the knowledge I learnt on JavaScr
   })
 
   ``` 
-
-
+<br>
 
 
 ### Starting Position of the Humans 
@@ -161,9 +162,7 @@ The project was an opportunity to put together the knowledge I learnt on JavaScr
         return elem % width === 0
       })
     }
-
   ``` 
-<br> 
 
 - Using the functions above as conditions, I wrote if statements to decide how and when to update the humans array to reflect the cell positions they will next be at. I also utilised variables to decide whether the humans should move left or right after moving down. Here is a snippet:
 
@@ -234,17 +233,14 @@ The project was an opportunity to put together the knowledge I learnt on JavaScr
 
 <br>
 
-### Monkey Shooting Poop: PoopShootingInterval
+### Monkey Shooting Poop: poopShootingInterval
 
 - This interval is responsible for updating the variable poop. The value of poop corresponds to the poop's position on the grid.  
 
 - The user shoots a poop by clicking spacebar. Hence this interval is within an event listener. 
 
 
-- <img src="./assets/screenshots/poopshootingscreenshot.jpg" width="300"/>
-
-
-
+- <img src="./assets/screenshots/poopshootingscreenshot.jpg" width="450"/>
 
 
 
@@ -287,9 +283,46 @@ The project was an opportunity to put together the knowledge I learnt on JavaScr
 - Time spent on refactoring was very useful as separating the state and the rendering of the game state has given my code the structure it needed! 
 
 
+### Winning or Losing functions 
+
+- I have two functions that runs depending on whether the user lost or won. This was handy as I can call the appropriate function inside if statements to end the game. Here is a snippet: 
+
+  ``` js
+  function playerWon() {
+    if (localStorage) {
+      localStorage.setItem('levelcompleted', 1)
+    }
+    clearInterval(humanMovingIntervalId)
+    clearInterval(NetDroppingIntervalId)
+    clearInterval(PoopShootingIntervalId)
+    setTimeout(function () {
+      play = confirm('You won! You saved the Monkey Kingdom! Would you like to play level 2?')
+      if (play) {
+      window.location.reload()
+      }
+    }, 300)
+   }
+
+  ``` 
+    ``` js
+
+    function poopKilledHuman() {
+      humans.splice(humans.indexOf(poop), 1)
+      poop = null
+      doesPoopExist = false
+      humanScream.play()
+      clearInterval(PoopShootingIntervalId)
+      if (humans.length === 0) {
+        playerWon()
+      }
+    }
+  ``` 
+
+<br>
+
 
 ### Local Storage 
-- I utilised localStorage to keep track of the uers's progress. 
+- I utilised localStorage to keep track of the users's progress to decide whether level 2 should be available to the user.
 
 - When a user succesfully completes level 1, a data item 'levelcompleted' with the value 1 is stored inside localStorage and the variable levelCompleted's value would be reassigned.
 
@@ -318,23 +351,47 @@ The project was an opportunity to put together the knowledge I learnt on JavaScr
   }
   ``` 
 
-### Challenges 
+### Challenges 💪
 - I was very eager to get going at the beginning and overlooked the importance of detailed planning especially on the logic. I had to write the human movement logic over and over again before I got it right!
 
-- Before I refactored my code I found it challenging to debug because the code was not organised 
+- Before I refactored my code I found it challenging to debug because the code was not organised and changing one thing meant that I had to make the same change elsewhere in my code. Updating variables and rendering the result would often take place together. This is a snippet of my code before I had refactored:
+
+     ``` js
+      } else if (netAppearPosition > width * width - 1 - width) {
+        cells[netAppearPosition].classList.remove('net')
+        clearInterval(netDroppingIntervalId)
+        netAppearPosition = null
+
+      } else {
+        cells[netAppearPosition].classList.remove('net')
+        netAppearPosition = netAppearPosition + width
+        cells[netAppearPosition].classList.add('net')
+     ``` 
 
 - There were unique issues that I had not thought about regarding collision. Take net colliding with monkey as an example. At the beginning, I had only taken into account the net colliding into the monkey but not the other way around. As a result of this sometimes the Monkey would not lose a life if he briefly runs into the net. I solved the issue by also checking for net collision whenever user moves Monkey.
 
 
 
-### Victories 
+### Victories 🔥
 - I had my minimal viable product earlier than planned and decided to refactor my code, This was more difficult than expected but it was one of the biggest learning curve in this project. It gave me the opportunity to rethink and refine the logic of my game. More importantly, it taught me to separate the game state, setIntervals, functions and the rendering of the game. As a result of this, I have code that is shorter, cleaner and much more scalable and easier to understand. 
 
 - Having two levels. I was glad that not only did I manage to render a bigger grid with humans, I also managed to increasae the difficulty by changing things such as increasing the speed at which the nets were dropping. 
 
 
 ### Potential future features 
-- More levels and features. For example the humans could occasionally throw a banana. If the user succesfully clicks on it, an extra life would be rewarded. 
+- More levels and features. For example the humans could occasionally throw a banana. If the user succesfully clicks on it, an extra life would be rewarded.
+
+- Scoreboard (perhaps to record how many levels a user succesfully completed)
+
+- Mobile-compatibility
 
 
-### Lessons learned
+
+
+### Lessons learned ✍️
+
+- To plan out any logic required in detail. Trying to visualise how the logic would work together could also help address edge cases. 
+
+- Define goals for each day
+
+- Keep an issues/bugs log and how I went about fixing them - this came in super handy when I was writing my README! 

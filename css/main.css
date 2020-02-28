@@ -28,7 +28,6 @@ margin-top: 10px;
 .grid {
   display: flex;
   flex-direction: row;
-  border: 1px solid grey;
   width: 550px;
   height: 550px;
   flex-wrap: wrap;

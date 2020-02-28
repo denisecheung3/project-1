@@ -153,11 +153,11 @@ function newHumanInvaders() {
     if (localStorage) {
       localStorage.setItem('levelcompleted', 1)
     }
-    clearInterval(humanMovingIntervalId) //humans stopped moving but the humans are still displayed
+    clearInterval(humanMovingIntervalId)
     clearInterval(NetDroppingIntervalId)
     clearInterval(PoopShootingIntervalId)
     setTimeout(function () {
-      play = confirm('You won! You saved the Monkey Kingdom!')
+      play = confirm('You won! You saved the Monkey Kingdom! Would you like to play level 2?')
       if (play) {
         window.location.reload()
       }
