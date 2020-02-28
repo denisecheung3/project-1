@@ -13,7 +13,7 @@ GA gave us a selection of arcade games to choose from. I decided to take on _Spa
 
 The project was an opportunity to put together the knowledge I learnt on JavaScript and manipulating the DOM while recreating a classic game.
 
-You can launch the game on GitHub pages [here](https://denisecheung3.github.io/project-1/), or find the GitHub repo [here](https://github.com/katheich/vac-man).
+You can launch the game on GitHub pages [here](https://denisecheung3.github.io/project-1/).
 
 
 ## Brief
