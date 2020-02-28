@@ -88,6 +88,17 @@ You can launch the game on GitHub pages [here](https://denisecheung3.github.io/p
 
 <br>
 
+### The state 
+I had variables that kept track of the state of my game. These variables are constantly updated by functions and setIntervals. Then a renderGame() function is called to display these changes on the screen. The renderGame() function will be discussed in detail later on in this README. Here are some of my variables: 
+
+- `currentMonkey`: the index of the cell the Monkey is on 
+- `poop`: the index of the cell the poop is on
+- `lives`: starts at 3 and every time Monkey collides with poop, one life is deducted. When lives === 0, the user has lost and the game ends.
+- `currentNet`: the index of the cell the net is at. When net collides with Monkey or reaches bottom row, it is assigned to null. 
+- `hasJustCollided`: ta boolean that is either false (base state) or true. To keep track of whether the humans have already touched the leftest or rightest column and moved down
+- `isGoingLeft`: a boolean that is either false(base state) or true. To keep track of whether the humans are going left or right
+- `doesNetExist/doesPoopExist`: a boolean that is either false(base state) or true. To keep track of whether a net/poop already exists  
+
 ### Monkey movement 
 - Moving the monkey comes from an event listener that checks for a keydown event on the user's keyboard:
 
