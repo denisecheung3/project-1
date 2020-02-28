@@ -4,9 +4,6 @@
 
 ## Overview 
 
-- <img src="./assets/screenshots/gridlevel1screenshot.jpg" width="450"/> 
-
-
 My task was to create a grid-based game rendered in the browser using HTML, CSS and JavaScript. I completed the project individually within one week during the Software Engineering Bootcamp at General Assembly ('GA'). 
 
 GA gave us a selection of arcade games to choose from. I decided to take on _Space Invaders_. I came up with a light hearted and funny theme during the planning process. The user will control a Monkey 🐒 and the objective is to kill the humans who are on their way to invade the Monkey Kingdom by firing poop 💩at them.
